@@ -347,9 +347,15 @@ export default function JobDetailPage() {
                     </li>
                   ))}
                 </ul>
-                <a href={job.applyUrl} target="_blank" rel="noopener noreferrer" className="btn btn--primary" style={{width:"100%",justifyContent:"center",marginTop:"1.25rem"}}>
+                <button
+                 rel="noopener noreferrer" className="btn btn--primary" style={{width:"100%",justifyContent:"center",marginTop:"1.25rem"}}
+                  onClick={() => {
+                    window.open(job.applyUrl, "_blank", "noopener,noreferrer");
+                    setShowApplyModal(true);
+                  }}
+                >
                   Apply Now →
-                </a>
+                </button>
                 <button
                   className={`btn ${saved ? "btn--saved" : "btn--ghost"}`}
                   style={{width:"100%",justifyContent:"center",marginTop:"0.625rem"}}
