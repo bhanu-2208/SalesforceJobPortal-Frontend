@@ -2365,7 +2365,7 @@ body {
 .auth__brand-icon {
   width: 64px;
   height: 43px;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   display: block;
 }
 
@@ -3968,7 +3968,7 @@ body {
 .auth__brand-icon {
   width: 64px;
   height: 43px;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   display: block;
 }
 
@@ -5672,7 +5672,7 @@ body {
 .auth__brand-icon {
   width: 64px;
   height: 43px;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   display: block;
 }
 
