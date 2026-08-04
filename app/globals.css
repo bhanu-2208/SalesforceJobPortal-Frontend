@@ -9874,3 +9874,53 @@ body {
 @media (max-width: 640px) {
   .cand-ranking-banner { flex-direction: column; }
 }
+
+
+.apply-confirm{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+    background:#f5f7fb;
+}
+
+.apply-confirm-card{
+    width:100%;
+    max-width:500px;
+    background:#fff;
+    border-radius:18px;
+    padding:40px;
+    text-align:center;
+    box-shadow:0 15px 45px rgba(0,0,0,.08);
+}
+
+.apply-confirm-icon{
+    width:70px;
+    height:70px;
+    margin:auto;
+    border-radius:50%;
+    background:#22c55e;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:34px;
+    margin-bottom:20px;
+}
+
+.apply-confirm-card h1{
+    margin-bottom:15px;
+}
+
+.apply-confirm-card p{
+    color:#666;
+    margin-bottom:10px;
+}
+
+.apply-confirm-buttons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin-top:30px;
+}

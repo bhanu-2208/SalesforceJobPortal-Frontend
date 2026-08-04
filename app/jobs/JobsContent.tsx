@@ -304,7 +304,6 @@ function PostJobModal({ token, onClose, onSuccess }: { token: string; onClose: (
 function JobCard({ job, user, onDelete }: { job: Job; user: User | null; onDelete: (id: string) => void }) {
   const [saved,  setSaved]  = useState(false);
   const [saving, setSaving] = useState(false);
-  const [showApplyModal, setShowApplyModal] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const handleSave = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -388,11 +387,26 @@ function JobCard({ job, user, onDelete }: { job: Job; user: User | null; onDelet
 
       <div className="job-card__actions">
         <a href={`/jobs/${job.slug}`} className="btn btn--primary btn--sm">View Details</a>
+        {/* <a
+          href={job.applyUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn--ghost btn--sm"
+        >
+          Apply →
+        </a> */}
         <button
           className="btn btn--ghost btn--sm"
           onClick={() => {
-            window.open(job.applyUrl, "_blank", "noopener,noreferrer");
-            setShowApplyModal(true);
+            const current =
+              window.location.pathname + window.location.search;
+
+            window.open(job.applyUrl, "_blank");
+
+            window.location.href =
+              `/apply-confirm?jobId=${job._id}&title=${encodeURIComponent(
+                job.title
+              )}&returnUrl=${encodeURIComponent(current)}`;
           }}
         >
           Apply →
@@ -426,17 +440,6 @@ function JobCard({ job, user, onDelete }: { job: Job; user: User | null; onDelet
           </button>
         )}
       </div>
-       {showApplyModal && (
-            <ApplyConfirmModal
-              jobId={job._id}
-              jobTitle={job.title}
-              applyUrl={job.applyUrl}
-              onClose={() => setShowApplyModal(false)}
-              onMarked={() => {
-                console.log("Marked Applied");
-              }}
-            />
-          )}
     </div>
   );
 }
