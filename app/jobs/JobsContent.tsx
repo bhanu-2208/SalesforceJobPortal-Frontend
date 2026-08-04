@@ -425,18 +425,18 @@ function JobCard({ job, user, onDelete }: { job: Job; user: User | null; onDelet
             </svg>
           </button>
         )}
-        {showApplyModal && (
-          <ApplyConfirmModal
-            jobId={job._id}
-            jobTitle={job.title}
-            applyUrl={job.applyUrl}
-            onClose={() => setShowApplyModal(false)}
-            onMarked={() => {
-              console.log("Marked Applied");
-            }}
-          />
-        )}
       </div>
+       {showApplyModal && (
+            <ApplyConfirmModal
+              jobId={job._id}
+              jobTitle={job.title}
+              applyUrl={job.applyUrl}
+              onClose={() => setShowApplyModal(false)}
+              onMarked={() => {
+                console.log("Marked Applied");
+              }}
+            />
+          )}
     </div>
   );
 }

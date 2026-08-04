@@ -311,9 +311,16 @@ export default function JobDetailPage() {
                   <p className="jdetail-apply-cta__text">Interested in this role?</p>
                   <p className="jdetail-apply-cta__sub">Apply directly on the company's careers page.</p>
                 </div>
-                <a href={job.applyUrl} target="_blank" rel="noopener noreferrer" className="btn btn--primary btn--lg">
+                <button
+                  className="btn btn--primary btn--lg"
+                  onClick={() => {
+                    window.open(job.applyUrl, "_blank", "noopener,noreferrer");
+                    setShowApplyModal(true);
+                  }}
+                >
                   Apply Now →
-                </a>
+                </button>
+                
               </div>
             </main>
 
