@@ -542,7 +542,7 @@ export default function ProfilePage() {
                         <input className="pm-input" maxLength={120} placeholder="e.g. Salesforce Developer | 3+ yrs | Apex, LWC, Flow" value={profile.headline} onChange={(e) => update("headline", e.target.value)} />
                       </Field>
                       <Field label="About / Summary" required>
-                        <textarea className="pm-textarea" rows={4} maxLength={2000} placeholder="A few lines about your experience and what you're looking for..." value={profile.summary} onChange={(e) => update("summary", e.target.value)} />
+                        <textarea className="pm-textarea" rows={4} maxLength={6000} placeholder="A few lines about your experience and what you're looking for..." value={profile.summary} onChange={(e) => update("summary", e.target.value)} />
                       </Field>
                       <Field label="Phone" required>
                         <input className="pm-input" value={profile.phone} onChange={(e) => update("phone", e.target.value)} />

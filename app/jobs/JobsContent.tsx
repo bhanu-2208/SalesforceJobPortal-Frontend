@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getValidToken } from "@/lib/api";
 import { useSearchParams } from "next/navigation";
+import ApplyConfirmModal from "@/components/Applyconfirmmodal";
 
 const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 
@@ -303,6 +304,7 @@ function PostJobModal({ token, onClose, onSuccess }: { token: string; onClose: (
 function JobCard({ job, user, onDelete }: { job: Job; user: User | null; onDelete: (id: string) => void }) {
   const [saved,  setSaved]  = useState(false);
   const [saving, setSaving] = useState(false);
+  const [showApplyModal, setShowApplyModal] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const handleSave = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -386,7 +388,15 @@ function JobCard({ job, user, onDelete }: { job: Job; user: User | null; onDelet
 
       <div className="job-card__actions">
         <a href={`/jobs/${job.slug}`} className="btn btn--primary btn--sm">View Details</a>
-        <a href={job.applyUrl} target="_blank" rel="noopener noreferrer" className="btn btn--ghost btn--sm">Apply →</a>
+        <button
+          className="btn btn--ghost btn--sm"
+          onClick={() => {
+            window.open(job.applyUrl, "_blank", "noopener,noreferrer");
+            setShowApplyModal(true);
+          }}
+        >
+          Apply →
+        </button>
         <button
           className={`job-card__save-btn ${saved ? "job-card__save-btn--saved" : ""}`}
           onClick={handleSave}
@@ -414,6 +424,17 @@ function JobCard({ job, user, onDelete }: { job: Job; user: User | null; onDelet
               <path d="M14 11v6"/>
             </svg>
           </button>
+        )}
+        {showApplyModal && (
+          <ApplyConfirmModal
+            jobId={job._id}
+            jobTitle={job.title}
+            applyUrl={job.applyUrl}
+            onClose={() => setShowApplyModal(false)}
+            onMarked={() => {
+              console.log("Marked Applied");
+            }}
+          />
         )}
       </div>
     </div>
