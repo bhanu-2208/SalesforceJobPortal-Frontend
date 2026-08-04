@@ -4385,7 +4385,7 @@ body {
   justify-content: center;
   z-index: 999;
   padding: 1rem;
-  animation: modal-fade-in 150ms ease;
+  /* animation: modal-fade-in 150ms ease; */
 }
 
 @keyframes modal-fade-in {
@@ -6105,7 +6105,7 @@ body {
   width: 100%;
   text-align: center;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
-  animation: modal-slide-up 200ms ease;
+  /* animation: modal-slide-up 200ms ease; */
 }
 
 @keyframes modal-slide-up {
