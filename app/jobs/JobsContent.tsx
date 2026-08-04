@@ -807,13 +807,12 @@ export default function JobsPage() {
           </div>
 
           {/* ── NEW: Horizontal Animated Filters directly under search ── */}
+          <FilterBar filters={filters} onChange={setFilter} onClear={clearFilters} />
         </div>
 
         {/* ── Body (sidebar removed — main uses full width now) ── */}
         <div className="jobs-body">
           <main className="jobs-main jobs-main--full">
-            <FilterBar filters={filters} onChange={setFilter} onClear={clearFilters} />
-
             {loading ? (
               <div className="jobs-loading">
                 {[...Array(6)].map((_, i) => <div key={i} className="jobs-skeleton" />)}
