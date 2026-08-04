@@ -356,7 +356,7 @@ function FilterBar({
   filters, onChange, onClear,
 }: { filters: any; onChange: (k: string, v: string) => void; onClear: () => void }) {
 
-  const WORK_MODES        = ["Remote", "Hybrid", "Onsite"];
+  const WORK_MODES        = ["Remote", "Hybrid", "Onsite","Not Specified"];
   const EXPERIENCE_LEVELS = ["0 Years", "1-2 Years", "2-6 Years", "6-8 Years", "8-12 Years", "12+ Years"];
   const EMPLOYMENT_TYPES  = ["Full-time", "Part-time", "Contract", "Internship"];
   const COUNTRIES         = ["India", "USA", "UK", "Germany", "Australia", "Canada"];
@@ -447,7 +447,7 @@ function FilterBar({
       {/* Scoped animated styles ---------------------------------------- */}
       <style jsx>{`
         .fb-wrap {
-          margin-top: 1rem;
+          margin-top:  0 0 1.25rem 0; 
           animation: fb-fade-in 0.5s ease both;
         }
         .fb-inner {
@@ -807,12 +807,13 @@ export default function JobsPage() {
           </div>
 
           {/* ── NEW: Horizontal Animated Filters directly under search ── */}
-          <FilterBar filters={filters} onChange={setFilter} onClear={clearFilters} />
         </div>
 
         {/* ── Body (sidebar removed — main uses full width now) ── */}
         <div className="jobs-body">
           <main className="jobs-main jobs-main--full">
+            <FilterBar filters={filters} onChange={setFilter} onClear={clearFilters} />
+
             {loading ? (
               <div className="jobs-loading">
                 {[...Array(6)].map((_, i) => <div key={i} className="jobs-skeleton" />)}
