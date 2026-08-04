@@ -6697,6 +6697,7 @@ body {
 .jobs-hero__search {
   max-width: 1200px;
   margin-inline: auto;
+  margin-bottom: 4rem;
   display: flex;
   align-items: center;
   gap: 0.75rem;
