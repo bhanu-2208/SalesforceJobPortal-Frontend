@@ -6733,6 +6733,7 @@ body {
 /* ── Body layout ──────────────────────────────────────── */
 .jobs-body {
   max-width: 1200px;
+  margin-top:3rem;
   margin-inline: auto;
   padding: 1.5rem 1.5rem 4rem;
 }
