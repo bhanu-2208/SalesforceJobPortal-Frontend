@@ -1,20 +1,23 @@
 "use client";
 
+import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 const API =
   process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 
-export default function ApplyConfirmPage() {
+function ApplyConfirmContent() {
   const router = useRouter();
   const params = useSearchParams();
-
+  
+  
   const jobId = params.get("jobId") ?? "";
   const title = params.get("title") ?? "";
 
   const [saving, setSaving] = useState(false);
 
+    const returnUrl = params.get("returnUrl") || "/jobs";
   const handleYes = async () => {
     setSaving(true);
 
@@ -28,13 +31,17 @@ export default function ApplyConfirmPage() {
         },
       });
     } catch {}
-
-    router.push("/jobs");
+    router.push(returnUrl);
+    // router.push("/jobs");
   };
 
-  const handleNo = () => {
-    router.push("/jobs");
-  };
+//   const handleNo = () => {
+//     router.push("/jobs");
+//   };
+    const handleNo = () => {
+    const returnUrl = params.get("returnUrl") || "/jobs";
+    router.push(returnUrl);
+    };
 
   return (
     <div className="apply-confirm">
@@ -77,4 +84,14 @@ export default function ApplyConfirmPage() {
       </div>
     </div>
   );
+  // your existing code here
 }
+
+export default function ApplyConfirmPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ApplyConfirmContent />
+    </Suspense>
+  );
+}
+
