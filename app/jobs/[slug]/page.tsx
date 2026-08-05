@@ -33,6 +33,16 @@ interface Job {
   source?: string;
   company?: { _id: string; name: string; logo?: string; website?: string };
 }
+
+
+function formatDescription(description: string) {
+  return description
+    .replace(/\r/g, "")
+    .split("\n")
+    .map(line => line.trim())
+    .filter(Boolean);
+}
+
 interface User { id: string; name: string; email: string; role: string; }
 
 const WORK_MODE_CLASS: Record<string, string> = { Remote: "badge--green", Hybrid: "badge--blue", Onsite: "badge--gray" };
@@ -293,9 +303,52 @@ export default function JobDetailPage() {
                 <div className="jdetail-section">
                   <h2 className="jdetail-section-title">Job Description</h2>
                   <div className="jdetail-description">
-                    {job.description.split("\n").map((line, i) => (
-                      line.trim() === "" ? <br key={i} /> : <p key={i} className="jdetail-desc-para">{line}</p>
-                    ))}
+                    {formatDescription(job.description).map((line, i) => {
+
+                      // headings
+                      if (
+                        line.endsWith(":") ||
+                        line.length < 45 &&
+                        /^[A-Z][A-Za-z\s&]+$/.test(line)
+                      ) {
+                        return (
+                          <h3 key={i} className="jdetail-desc-heading">
+                            {line}
+                          </h3>
+                        );
+                      }
+
+                      // existing bullets
+                      if (
+                        line.startsWith("•") ||
+                        line.startsWith("-") ||
+                        line.startsWith("*")
+                      ) {
+                        return (
+                          <div key={i} className="jdetail-bullet">
+                            <span className="bullet-dot"></span>
+                            <span>{line.replace(/^[•*-]\s*/, "")}</span>
+                          </div>
+                        );
+                      }
+
+                      // numbered lists
+                      if (/^\d+\./.test(line)) {
+                        return (
+                          <div key={i} className="jdetail-bullet">
+                            <span className="bullet-dot"></span>
+                            <span>{line}</span>
+                          </div>
+                        );
+                      }
+
+                      // normal paragraph
+                      return (
+                        <p key={i} className="jdetail-desc-para">
+                          {line}
+                        </p>
+                      );
+                    })}
                   </div>
                 </div>
               )}
