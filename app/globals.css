@@ -10201,3 +10201,106 @@ body {
   max-width: 880px;
   margin-inline: auto;
 }
+
+
+
+
+.jdetail-overview-card {
+  background: linear-gradient(135deg, #E6F6FD, #F0EAFD);
+  border: 1.5px solid #D8E6F0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.jdetail-overview-card p {
+  font-size: 1rem;
+  color: #1B2533;
+  line-height: 1.7;
+  font-weight: 500;
+}
+
+/* Rich section variant — slightly more breathing room than plain jdetail-section */
+.jdetail-section--rich {
+  padding: 1.5rem 1.75rem;
+}
+
+.jdetail-section-title--rich {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  text-transform: none;
+  letter-spacing: -0.01em;
+  font-size: 1.0625rem;
+  font-weight: 800;
+  color: #1B2533;
+}
+
+.jdetail-section-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+/* Bullet list — used for Responsibilities / Requirements / Preferred / Benefits */
+.jdetail-bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.jdetail-bullet-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.9375rem;
+  color: #3D4E5C;
+  line-height: 1.65;
+}
+
+.jdetail-bullet-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00A1E0;
+  flex-shrink: 0;
+  margin-top: 0.5rem;
+}
+
+/* Product tag — Salesforce Products section (cloud icon style) */
+.jdetail-product-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  background: #E6F6FD;
+  color: #0070C0;
+  border: 1px solid #B3E5FC;
+}
+
+/* Certification tag — gold/badge styling to feel prestigious */
+.jdetail-cert-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #FEF3E2, #FDE9C8);
+  color: #92400E;
+  border: 1px solid #FCD34D;
+}
+
+.jdetail-cert-tag::before {
+  content: "🏅";
+  font-size: 0.75rem;
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 600px) {
+  .jdetail-section--rich { padding: 1.25rem; }
+  .jdetail-overview-card { padding: 1.25rem; }
+}
