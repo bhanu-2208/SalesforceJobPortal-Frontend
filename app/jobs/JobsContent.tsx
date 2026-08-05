@@ -156,7 +156,45 @@ function S({ label, id, value, onChange, children }: any) {
 
 // ── Post Job Modal ────────────────────────────────────────────────────
 function PostJobModal({ token, onClose, onSuccess }: { token: string; onClose: () => void; onSuccess: () => void }) {
-  const [form, setForm] = useState({ title:"", description:"", companyName:"", companyLogo:"", location:"", country:"India", workMode:"Hybrid", experienceLevel:"0-1 Year", roleCategory:"", skills:"", employmentType:"Full-time", applyUrl:"", salaryMin:"", salaryMax:"", currency:"INR" });
+  const [form, setForm] = useState({
+    title: "",
+    description: "",
+    companyName: "",
+    companyLogo: "",
+
+    location: "",
+    country: "India",
+
+    workMode: "Onsite",
+
+    experienceLevel: "0 Years",
+    roleCategory: "",
+
+    employmentType: "Full-time",
+
+    applyUrl: "",
+
+    salaryMin: "",
+    salaryMax: "",
+    currency: "INR",
+
+    skills: "",
+
+    // NEW
+    companyWebsite: "",
+    companyIndustry: "",
+    companySize: "",
+
+    applicationDeadline: "",
+
+    benefits: "",
+
+    responsibilities: "",
+
+    qualifications: "",
+
+    preferredQualifications: "",
+  });
   const [loading, setLoading] = useState(false);
   const [error,   setError]   = useState("");
 
@@ -174,9 +212,58 @@ function PostJobModal({ token, onClose, onSuccess }: { token: string; onClose: (
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${validToken}` },
         body: JSON.stringify({
-          ...form,
-          skills: form.skills.split(",").map(s => s.trim()).filter(Boolean),
-          salary: form.salaryMin ? { min: Number(form.salaryMin), max: Number(form.salaryMax), currency: form.currency } : undefined,
+          title: form.title,
+          description: form.description,
+
+          companyName: form.companyName,
+          companyLogo: form.companyLogo,
+          companyWebsite: form.companyWebsite,
+          companyIndustry: form.companyIndustry,
+          companySize: form.companySize,
+
+          location: form.location,
+          country: form.country,
+
+          workMode: form.workMode,
+          experienceLevel: form.experienceLevel,
+          roleCategory: form.roleCategory,
+          employmentType: form.employmentType,
+
+          applyUrl: form.applyUrl,
+          applicationDeadline: form.applicationDeadline,
+
+          responsibilities: form.responsibilities
+            .split("\n")
+            .map(s => s.trim())
+            .filter(Boolean),
+
+          qualifications: form.qualifications
+            .split("\n")
+            .map(s => s.trim())
+            .filter(Boolean),
+
+          preferredQualifications: form.preferredQualifications
+            .split("\n")
+            .map(s => s.trim())
+            .filter(Boolean),
+
+          benefits: form.benefits
+            .split("\n")
+            .map(s => s.trim())
+            .filter(Boolean),
+
+          skills: form.skills
+            .split(",")
+            .map(s => s.trim())
+            .filter(Boolean),
+
+          salary: form.salaryMin
+            ? {
+                min: Number(form.salaryMin),
+                max: Number(form.salaryMax),
+                currency: form.currency,
+              }
+            : undefined,
         }),
       });
       const data = await res.json();
@@ -196,6 +283,36 @@ function PostJobModal({ token, onClose, onSuccess }: { token: string; onClose: (
           <F label="Job Title *"     id="pj-title"  value={form.title}       onChange={(v:string) => set("title",v)}       placeholder="e.g. Salesforce Developer" />
           <F label="Company Name *" id="pj-company" value={form.companyName} onChange={(v:string) => set("companyName",v)} placeholder="e.g. Accenture" />
           <F label="Company Logo URL (optional)" id="pj-logo" value={form.companyLogo} onChange={(v:string) => set("companyLogo",v)} placeholder="https://yourcompany.com/logo.png" />
+          <F
+            label="Company Website"
+            id="pj-company-website"
+            value={form.companyWebsite}
+            onChange={(v:string)=>set("companyWebsite",v)}
+            placeholder="https://company.com"
+          />
+
+          <S
+            label="Company Size"
+            id="pj-company-size"
+            value={form.companySize}
+            onChange={(v:string)=>set("companySize",v)}
+          >
+            <option value="">Select</option>
+            <option>1-10</option>
+            <option>11-50</option>
+            <option>51-200</option>
+            <option>201-500</option>
+            <option>501-1000</option>
+            <option>1000+</option>
+          </S>
+
+          <F
+            label="Industry"
+            id="pj-industry"
+            value={form.companyIndustry}
+            onChange={(v:string)=>set("companyIndustry",v)}
+            placeholder="Software"
+          />
           <F label="Location"        id="pj-loc"    value={form.location}    onChange={(v:string) => set("location",v)}    placeholder="e.g. Hyderabad, India" />
           <F label="Country"         id="pj-country" value={form.country}    onChange={(v:string) => set("country",v)}     placeholder="e.g. India" />
           <S label="Work Mode"       id="pj-wm"     value={form.workMode}    onChange={(v:string) => set("workMode",v)}>
@@ -224,9 +341,60 @@ function PostJobModal({ token, onClose, onSuccess }: { token: string; onClose: (
           <label className="feedback__label" htmlFor="pj-url">Apply URL *</label>
           <input id="pj-url" type="url" className="feedback__input" value={form.applyUrl} onChange={e => set("applyUrl", e.target.value)} placeholder="https://careers.yourcompany.com/job/123" />
         </div>
+        <F
+          label="Application Deadline"
+          id="pj-deadline"
+          type="date"
+          value={form.applicationDeadline}
+          onChange={(v:string)=>set("applicationDeadline",v)}
+        />
         <div className="feedback__field" style={{ marginTop: "1rem" }}>
           <label className="feedback__label" htmlFor="pj-desc">Description *</label>
           <textarea id="pj-desc" className="feedback__textarea" rows={7} value={form.description} onChange={e => set("description", e.target.value)} placeholder="Full job description, responsibilities, requirements..." />
+        </div>
+        <div className="feedback__field" style={{ marginTop: "1rem" }}>
+          <label>Responsibilities</label>
+
+          <textarea
+            className="feedback__textarea"
+            rows={5}
+            value={form.responsibilities}
+            onChange={e=>set("responsibilities",e.target.value)}
+            placeholder="One responsibility per line"
+          />
+        </div>
+        <div className="feedback__field" style={{ marginTop: "1rem" }}>
+          <label>Required Qualifications</label>
+
+          <textarea
+            className="feedback__textarea"
+            rows={5}
+            value={form.qualifications}
+            onChange={e=>set("qualifications",e.target.value)}
+            placeholder="One qualification per line"
+          />
+        </div>
+        <div className="feedback__field" style={{ marginTop: "1rem" }}>
+          <label>Preferred Qualifications</label>
+
+          <textarea
+            className="feedback__textarea"
+            rows={4}
+            value={form.preferredQualifications}
+            onChange={e=>set("preferredQualifications",e.target.value)}
+            placeholder="Optional"
+          />
+        </div>
+        <div className="feedback__field" style={{ marginTop: "1rem" }}>
+          <label>Benefits</label>
+
+          <textarea
+            className="feedback__textarea"
+            rows={4}
+            value={form.benefits}
+            onChange={e=>set("benefits",e.target.value)}
+            placeholder="Health Insurance, Remote Work, Bonus..."
+          />
         </div>
         <div className="jd-actions" style={{ marginTop: "1.5rem" }}>
           <button className="feedback__submit" onClick={handleSubmit} disabled={loading} style={{ flex:1 }}>
