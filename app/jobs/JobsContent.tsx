@@ -524,7 +524,7 @@ function FilterBar({
   filters, onChange, onClear,
 }: { filters: any; onChange: (k: string, v: string) => void; onClear: () => void }) {
 
-  const WORK_MODES        = ["Remote", "Hybrid", "Onsite","Not Specified"];
+  const WORK_MODES        = ["Remote", "Hybrid", "Onsite"];
   const EXPERIENCE_LEVELS = ["0 Years", "1-2 Years", "2-6 Years", "6-8 Years", "8-12 Years", "12+ Years"];
   const EMPLOYMENT_TYPES  = ["Full-time", "Part-time", "Contract", "Internship"];
   const COUNTRIES         = ["India", "USA", "UK", "Germany", "Australia", "Canada"];
