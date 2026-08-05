@@ -7244,11 +7244,15 @@ body {
   border-bottom: 1px solid #D8E6F0;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  font-size: 0.8125rem;
+  font-size: 1.6rem;      /* Increase size */
+  font-weight: 800; 
+  position: relative;
+  padding-bottom: 0.75rem;
 }
 
 .jdetail-skill {
-  font-size: 0.8125rem !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
   padding: 4px 12px !important;
 }
 
@@ -10231,13 +10235,18 @@ body {
   gap: 0.625rem;
   text-transform: none;
   letter-spacing: -0.01em;
+  font-size: 1.6rem;      /* Increase size */
+  font-weight: 800;       /* Extra bold */
   font-size: 1.0625rem;
   font-weight: 800;
   color: #1B2533;
+  position: relative;
+  padding-bottom: 0.75rem;
 }
 
 .jdetail-section-icon {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
   flex-shrink: 0;
 }
 
@@ -10253,9 +10262,10 @@ body {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
-  font-size: 0.9375rem;
-  color: #3D4E5C;
-  line-height: 1.65;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.8;
+  color: #334155;
 }
 
 .jdetail-bullet-dot {
@@ -10273,7 +10283,7 @@ body {
   align-items: center;
   padding: 4px 12px;
   border-radius: 20px;
-  font-size: 0.8125rem;
+  font-size: 0.95rem;
   font-weight: 600;
   background: #E6F6FD;
   color: #0070C0;
@@ -10287,7 +10297,7 @@ body {
   gap: 4px;
   padding: 4px 12px;
   border-radius: 20px;
-  font-size: 0.8125rem;
+  font-size: 0.95rem;
   font-weight: 700;
   background: linear-gradient(135deg, #FEF3E2, #FDE9C8);
   color: #92400E;
@@ -10303,4 +10313,18 @@ body {
 @media (max-width: 600px) {
   .jdetail-section--rich { padding: 1.25rem; }
   .jdetail-overview-card { padding: 1.25rem; }
+}
+
+.jdetail-section-title::after,
+.jdetail-section-title--rich::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 70px;
+    height: 4px;
+
+    background: linear-gradient(90deg, #0176d3, #5aa9ff);
+    border-radius: 999px;
 }
