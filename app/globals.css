@@ -7258,14 +7258,14 @@ body {
 
 /* Description */
 .jdetail-description { font-size: 0.9375rem; color: #3D4E5C; line-height: 1.8; }
-.jdetail-desc-para   { margin-bottom: 0.625rem; }
+/* .jdetail-desc-para   { margin-bottom: 0.625rem; }
 .jdetail-bullet      { padding-left: 0.75rem; margin-bottom: 0.375rem; }
 .jdetail-desc-heading {
   font-size: 0.9375rem;
   font-weight: 700;
   color: #1B2533;
   margin: 1.25rem 0 0.5rem;
-}
+} */
 
 /* Apply CTA bar */
 .jdetail-apply-cta {
