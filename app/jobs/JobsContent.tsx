@@ -227,7 +227,7 @@ function PostJobModal({ token, onClose, onSuccess }: { token: string; onClose: (
           workMode: form.workMode,
           experienceLevel: form.experienceLevel,
           roleCategory: form.roleCategory,
-          employmentType: form.employmentType,
+          employmentType: form.employmentType || "Full-time",
 
           applyUrl: form.applyUrl,
           applicationDeadline: form.applicationDeadline,
