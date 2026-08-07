@@ -199,6 +199,66 @@ export default function HeroSection() {
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={handleKeyDown}
             />
+
+            <select
+              className="hero__search-select"
+              aria-label="Filter by location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+            >
+              <option value="">All Locations</option>
+              <option value="India">India</option>
+              <option value="USA">USA</option>
+              <option value="UK">UK</option>
+              <option value="Germany">Germany</option>
+              <option value="Remote">Remote</option>
+            </select>
+
+            <select
+              className="hero__search-select"
+              aria-label="Filter by work mode"
+              value={workMode}
+              onChange={(e) => setWorkMode(e.target.value)}
+            >
+              <option value="">All Work Modes</option>
+              <option value="Remote">Remote</option>
+              <option value="Hybrid">Hybrid</option>
+              <option value="Onsite">Onsite</option>
+            </select>
+
+            <select
+              className="hero__search-select"
+              aria-label="Filter by employment type"
+              value={employmentType}
+              onChange={(e) => setEmploymentType(e.target.value)}
+            >
+              <option value="">All Types</option>
+              <option value="Full-time">Full-time</option>
+              <option value="Part-time">Part-time</option>
+              <option value="Contract">Contract</option>
+              <option value="Internship">Internship</option>
+            </select>
+
+            <button className="hero__search-btn" type="button" onClick={handleSearchClick}>
+              Search Jobs
+            </button>
+          </div>
+          {/* <div className="hero__search">
+            <div className="hero__search-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+            </div>
+            <input
+              className="hero__search-input"
+              type="text"
+              placeholder="Job title, skill, or company..."
+              aria-label="Search jobs"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
             <select
               className="hero__search-select"
               aria-label="Filter by location"
@@ -239,7 +299,7 @@ export default function HeroSection() {
             <button className="hero__search-btn" type="button" onClick={handleSearchClick}>
               Search Jobs
             </button>
-          </div>
+          </div> */}
 
           {/* Quick filters */}
           <div className="hero__quick-filters">
