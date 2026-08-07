@@ -59,6 +59,8 @@ export default function HeroSection() {
   const [query,      setQuery]      = useState("");
   const [location,   setLocation]   = useState("");
   const [showModal,  setShowModal]  = useState(false);
+  const [workMode, setWorkMode] = useState("");
+  const [employmentType, setEmploymentType] = useState("");
   const [stats,      setStats]      = useState<Stats>({ liveJobs: 0, companies: 0, cities: 0 });
 
   // Rehydrate user from localStorage
@@ -114,6 +116,8 @@ export default function HeroSection() {
     const params = new URLSearchParams();
     if (query.trim())    params.set("q", query.trim());
     if (location.trim()) params.set("country", location.trim());
+    if (workMode)         params.set("workMode", workMode);       // ← add
+    if (employmentType)   params.set("employmentType", employmentType); // ← add
 
     const qs = params.toString();
     router.push(qs ? `/jobs?${qs}` : "/jobs");
@@ -201,6 +205,30 @@ export default function HeroSection() {
               value={location}
               onChange={(e) => setLocation(e.target.value)}
             >
+              <select
+                className="hero__search-select"
+                aria-label="Filter by work mode"
+                value={workMode}
+                onChange={(e) => setWorkMode(e.target.value)}
+              >
+                <option value="">All Work Modes</option>
+                <option value="Remote">Remote</option>
+                <option value="Hybrid">Hybrid</option>
+                <option value="Onsite">Onsite</option>
+              </select>
+
+              <select
+                className="hero__search-select"
+                aria-label="Filter by employment type"
+                value={employmentType}
+                onChange={(e) => setEmploymentType(e.target.value)}
+              >
+                <option value="">All Types</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
+                <option value="Contract">Contract</option>
+                <option value="Internship">Internship</option>
+              </select>
               <option value="">All Locations</option>
               <option value="India">India</option>
               <option value="USA">USA</option>
