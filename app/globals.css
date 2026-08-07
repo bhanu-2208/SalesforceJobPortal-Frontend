@@ -10416,3 +10416,44 @@ body {
     margin-left: 0;
   }
 }
+
+/* Fix hero search bar to accommodate multiple dropdowns */
+.hero__search {
+  flex-wrap: wrap;
+  row-gap: 0.5rem;
+}
+
+.hero__search-select {
+  flex: 1 1 140px;
+  min-width: 120px;
+  max-width: 180px;
+}
+
+.hero__search-input {
+  flex: 2 1 200px;
+  min-width: 160px;
+}
+
+.hero__search-btn {
+  flex: 1 1 140px;
+}
+
+@media (max-width: 768px) {
+  .hero__search {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero__search-select,
+  .hero__search-input,
+  .hero__search-btn {
+    width: 100%;
+    max-width: 100%;
+    flex: none;
+  }
+
+  .hero__search-select {
+    border-left: none;
+    border-top: 1px solid #D8E6F0;
+  }
+}
