@@ -153,9 +153,19 @@ function SavedJobCard({
         <button className="btn btn--primary btn--sm" onClick={() => onViewDetails(job.slug)}>
           View Details
         </button>
-        <a href={job.applyUrl} target="_blank" rel="noopener noreferrer" className="btn btn--ghost btn--sm">
+        <button
+          className="btn btn--ghost btn--sm"
+          onClick={() => {
+            const current = window.location.pathname + window.location.search;
+
+            window.open(job.applyUrl, "_blank");
+
+            window.location.href =
+              `/apply-confirm?jobId=${job._id}&title=${encodeURIComponent(job.title)}&returnUrl=${encodeURIComponent(current)}`;
+          }}
+        >
           Apply →
-        </a>
+        </button>
         <button
           className="btn btn--sm saved-job-card__remove-btn"
           onClick={handleUnsave}
