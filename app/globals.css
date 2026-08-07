@@ -10526,3 +10526,17 @@ body {
     padding: 0.625rem 1rem;
   }
 }
+
+@media (max-width:768px){
+    .job-card__actions{
+        display:flex;
+        align-items:center;
+        gap:8px;
+        flex-wrap:nowrap;
+    }
+
+    .job-card__save-btn{
+        margin-left:auto;
+        flex-shrink:0;
+    }
+}
