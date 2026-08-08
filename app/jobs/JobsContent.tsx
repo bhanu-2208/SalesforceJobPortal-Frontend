@@ -1,6 +1,5 @@
 'use client'
-
-import { useState, useEffect, useCallback } from "react";
+import { useState,useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -520,6 +519,218 @@ function JobCard({ job, user, onDelete }: { job: Job; user: User | null; onDelet
 
 // ── NEW: Horizontal Animated Filter Bar ───────────────────────────────
 // Same filter state / same onChange handler — only presentation changes.
+// function FilterBar({
+//   filters, onChange, onClear,
+// }: { filters: any; onChange: (k: string, v: string) => void; onClear: () => void }) {
+
+//   const WORK_MODES        = ["Remote", "Hybrid", "Onsite"];
+//   const EXPERIENCE_LEVELS = ["0 Years", "1-2 Years", "2-6 Years", "6-8 Years", "8-12 Years", "12+ Years"];
+//   const EMPLOYMENT_TYPES  = ["Full-time", "Part-time", "Contract", "Internship"];
+//   const COUNTRIES         = ["India", "USA", "UK", "Germany", "Australia", "Canada"];
+
+//   const hasActive =
+//     filters.workMode || filters.experienceLevel || filters.employmentType ||
+//     filters.role || filters.country;
+
+//   // Toggle-radio behavior: click same value again to clear (identical to sidebar logic)
+//   const toggle = (key: string, value: string) =>
+//     onChange(key, filters[key] === value ? "" : value);
+
+//   return (
+//     <div className="fb-wrap">
+//       <div className="fb-inner">
+
+//         {/* Row: Work Mode */}
+//         <FilterGroup icon="🏢" label="Work Mode">
+//           {WORK_MODES.map((m, i) => (
+//             <FilterPill
+//               key={m} label={m} active={filters.workMode === m}
+//               onClick={() => toggle("workMode", m)} delay={i * 40}
+//             />
+//           ))}
+//         </FilterGroup>
+
+//         {/* Row: Experience */}
+//         <FilterGroup icon="🎯" label="Experience">
+//           {EXPERIENCE_LEVELS.map((e, i) => (
+//             <FilterPill
+//               key={e} label={e} active={filters.experienceLevel === e}
+//               onClick={() => toggle("experienceLevel", e)} delay={i * 40}
+//             />
+//           ))}
+//         </FilterGroup>
+
+//         {/* Row: Employment */}
+//         <FilterGroup icon="💼" label="Employment">
+//           {EMPLOYMENT_TYPES.map((t, i) => (
+//             <FilterPill
+//               key={t} label={t} active={filters.employmentType === t}
+//               onClick={() => toggle("employmentType", t)} delay={i * 40}
+//             />
+//           ))}
+//         </FilterGroup>
+
+//         {/* Row: Dropdowns (Role + Country) */}
+//         <div className="fb-selects">
+//           <div className="fb-select-wrap">
+//             <label className="fb-select-label">Job Role</label>
+//             <select
+//               className="fb-select"
+//               value={filters.role}
+//               onChange={e => onChange("role", e.target.value)}
+//             >
+//               <option value="">All Roles</option>
+//               {SALESFORCE_ROLES.map(r => <option key={r} value={r}>{r}</option>)}
+//             </select>
+//             <span className="fb-select-arrow">▾</span>
+//           </div>
+
+//           <div className="fb-select-wrap">
+//             <label className="fb-select-label">Country</label>
+//             <select
+//               className="fb-select"
+//               value={filters.country}
+//               onChange={e => onChange("country", e.target.value)}
+//             >
+//               <option value="">All Countries</option>
+//               {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
+//             </select>
+//             <span className="fb-select-arrow">▾</span>
+//           </div>
+
+//           {hasActive && (
+//             <button className="fb-clear" onClick={onClear} type="button">
+//               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{width:14,height:14}}>
+//                 <line x1="18" y1="6" x2="6" y2="18"/>
+//                 <line x1="6" y1="6" x2="18" y2="18"/>
+//               </svg>
+//               Clear all
+//             </button>
+//           )}
+//         </div>
+
+//       </div>
+
+//       {/* Scoped animated styles ---------------------------------------- */}
+//       <style jsx>{`
+//         .fb-wrap {
+//           margin-top:  0 0 1.25rem 0; 
+//           animation: fb-fade-in 0.5s ease both;
+//         }
+//         .fb-inner {
+//           display: flex;
+//           flex-direction: column;
+//           gap: 0.9rem;
+//           padding: 1.1rem 1.25rem;
+//           background: linear-gradient(135deg,
+//             rgba(255,255,255,0.9) 0%,
+//             rgba(245,247,250,0.9) 100%);
+//           border: 1px solid rgba(0,0,0,0.06);
+//           border-radius: 18px;
+//           box-shadow:
+//             0 1px 2px rgba(16,24,40,0.04),
+//             0 8px 24px -12px rgba(16,24,40,0.12);
+//           backdrop-filter: blur(10px);
+//         }
+//         .fb-selects {
+//           display: flex;
+//           flex-wrap: wrap;
+//           gap: 0.75rem;
+//           align-items: flex-end;
+//           padding-top: 0.4rem;
+//           border-top: 1px dashed rgba(0,0,0,0.08);
+//         }
+//         .fb-select-wrap {
+//           position: relative;
+//           flex: 1 1 220px;
+//           min-width: 180px;
+//         }
+//         .fb-select-label {
+//           display: block;
+//           font-size: 0.72rem;
+//           font-weight: 600;
+//           letter-spacing: 0.04em;
+//           text-transform: uppercase;
+//           color: #5E6E82;
+//           margin-bottom: 0.35rem;
+//         }
+//         .fb-select {
+//           width: 100%;
+//           appearance: none;
+//           -webkit-appearance: none;
+//           padding: 0.72rem 2.2rem 0.72rem 0.9rem;
+//           border-radius: 12px;
+//           border: 1.5px solid rgba(0,0,0,0.08);
+//           background: #fff;
+//           font-size: 0.92rem;
+//           font-weight: 500;
+//           color: #1a2233;
+//           cursor: pointer;
+//           transition:
+//             border-color 0.25s ease,
+//             box-shadow 0.25s ease,
+//             transform 0.15s ease;
+//         }
+//         .fb-select:hover { border-color: #4f46e5; transform: translateY(-1px); }
+//         .fb-select:focus {
+//           outline: none;
+//           border-color: #4f46e5;
+//           box-shadow: 0 0 0 4px rgba(79,70,229,0.15);
+//         }
+//         .fb-select-arrow {
+//           position: absolute;
+//           right: 0.9rem;
+//           bottom: 0.75rem;
+//           pointer-events: none;
+//           color: #4f46e5;
+//           font-size: 0.9rem;
+//           transition: transform 0.2s ease;
+//         }
+//         .fb-select-wrap:hover .fb-select-arrow { transform: translateY(2px); }
+
+//         .fb-clear {
+//           display: inline-flex;
+//           align-items: center;
+//           gap: 0.4rem;
+//           padding: 0.6rem 0.95rem;
+//           border-radius: 999px;
+//           border: 1.5px solid rgba(220, 38, 38, 0.25);
+//           background: rgba(254, 226, 226, 0.6);
+//           color: #b91c1c;
+//           font-size: 0.82rem;
+//           font-weight: 600;
+//           cursor: pointer;
+//           transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+//           animation: fb-pop-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+//           margin-bottom: 0.05rem;
+//         }
+//         .fb-clear:hover {
+//           background: #fecaca;
+//           transform: translateY(-1px) scale(1.02);
+//           box-shadow: 0 4px 12px -4px rgba(220,38,38,0.4);
+//         }
+
+//         @keyframes fb-fade-in {
+//           from { opacity: 0; transform: translateY(-6px); }
+//           to   { opacity: 1; transform: translateY(0); }
+//         }
+//         @keyframes fb-pop-in {
+//           0%   { opacity: 0; transform: scale(0.6); }
+//           100% { opacity: 1; transform: scale(1); }
+//         }
+
+//         @media (max-width: 720px) {
+//           .fb-inner { padding: 0.9rem; border-radius: 14px; }
+//           .fb-selects { flex-direction: column; align-items: stretch; }
+//         }
+//       `}</style>
+//     </div>
+//   );
+// }
+// ── NEW: LinkedIn-style single-line filter bar ─────────────────────────
+// Same filter state / same onChange handler — only presentation changes.
+// Drop this in place of the old FilterBar / FilterGroup / FilterPill.
+
 function FilterBar({
   filters, onChange, onClear,
 }: { filters: any; onChange: (k: string, v: string) => void; onClear: () => void }) {
@@ -529,340 +740,422 @@ function FilterBar({
   const EMPLOYMENT_TYPES  = ["Full-time", "Part-time", "Contract", "Internship"];
   const COUNTRIES         = ["India", "USA", "UK", "Germany", "Australia", "Canada"];
 
+  const [openKey, setOpenKey] = useState<string | null>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  // close on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setOpenKey(null);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  const toggleOpen = (key: string) => setOpenKey(p => (p === key ? null : key));
+
+  const selectValue = (key: string, value: string) => {
+    onChange(key, filters[key] === value ? "" : value);
+    setOpenKey(null);
+  };
+
   const hasActive =
     filters.workMode || filters.experienceLevel || filters.employmentType ||
     filters.role || filters.country;
 
-  // Toggle-radio behavior: click same value again to clear (identical to sidebar logic)
-  const toggle = (key: string, value: string) =>
-    onChange(key, filters[key] === value ? "" : value);
-
   return (
-    <div className="fb-wrap">
-      <div className="fb-inner">
+    <div className="li-fb" ref={wrapRef}>
+      <div className="li-fb-row">
 
-        {/* Row: Work Mode */}
-        <FilterGroup icon="🏢" label="Work Mode">
-          {WORK_MODES.map((m, i) => (
-            <FilterPill
-              key={m} label={m} active={filters.workMode === m}
-              onClick={() => toggle("workMode", m)} delay={i * 40}
-            />
+        <DropdownFilter
+          label="Work Mode" openKey={openKey} thisKey="workMode"
+          active={!!filters.workMode} display={filters.workMode}
+          onToggle={toggleOpen}
+        >
+          {WORK_MODES.map(m => (
+            <DropdownOption key={m} label={m} active={filters.workMode === m}
+              onClick={() => selectValue("workMode", m)} />
           ))}
-        </FilterGroup>
+        </DropdownFilter>
 
-        {/* Row: Experience */}
-        <FilterGroup icon="🎯" label="Experience">
-          {EXPERIENCE_LEVELS.map((e, i) => (
-            <FilterPill
-              key={e} label={e} active={filters.experienceLevel === e}
-              onClick={() => toggle("experienceLevel", e)} delay={i * 40}
-            />
+        <DropdownFilter
+          label="Experience" openKey={openKey} thisKey="experienceLevel"
+          active={!!filters.experienceLevel} display={filters.experienceLevel}
+          onToggle={toggleOpen}
+        >
+          {EXPERIENCE_LEVELS.map(e => (
+            <DropdownOption key={e} label={e} active={filters.experienceLevel === e}
+              onClick={() => selectValue("experienceLevel", e)} />
           ))}
-        </FilterGroup>
+        </DropdownFilter>
 
-        {/* Row: Employment */}
-        <FilterGroup icon="💼" label="Employment">
-          {EMPLOYMENT_TYPES.map((t, i) => (
-            <FilterPill
-              key={t} label={t} active={filters.employmentType === t}
-              onClick={() => toggle("employmentType", t)} delay={i * 40}
-            />
+        <DropdownFilter
+          label="Employment" openKey={openKey} thisKey="employmentType"
+          active={!!filters.employmentType} display={filters.employmentType}
+          onToggle={toggleOpen}
+        >
+          {EMPLOYMENT_TYPES.map(t => (
+            <DropdownOption key={t} label={t} active={filters.employmentType === t}
+              onClick={() => selectValue("employmentType", t)} />
           ))}
-        </FilterGroup>
+        </DropdownFilter>
 
-        {/* Row: Dropdowns (Role + Country) */}
-        <div className="fb-selects">
-          <div className="fb-select-wrap">
-            <label className="fb-select-label">Job Role</label>
-            <select
-              className="fb-select"
-              value={filters.role}
-              onChange={e => onChange("role", e.target.value)}
-            >
-              <option value="">All Roles</option>
-              {SALESFORCE_ROLES.map(r => <option key={r} value={r}>{r}</option>)}
-            </select>
-            <span className="fb-select-arrow">▾</span>
-          </div>
+        <DropdownFilter
+          label="Role" openKey={openKey} thisKey="role"
+          active={!!filters.role} display={filters.role}
+          onToggle={toggleOpen} scrollable
+        >
+          <DropdownOption label="All Roles" active={!filters.role}
+            onClick={() => selectValue("role", "")} />
+          {SALESFORCE_ROLES.map(r => (
+            <DropdownOption key={r} label={r} active={filters.role === r}
+              onClick={() => selectValue("role", r)} />
+          ))}
+        </DropdownFilter>
 
-          <div className="fb-select-wrap">
-            <label className="fb-select-label">Country</label>
-            <select
-              className="fb-select"
-              value={filters.country}
-              onChange={e => onChange("country", e.target.value)}
-            >
-              <option value="">All Countries</option>
-              {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
-            </select>
-            <span className="fb-select-arrow">▾</span>
-          </div>
+        <DropdownFilter
+          label="Country" openKey={openKey} thisKey="country"
+          active={!!filters.country} display={filters.country}
+          onToggle={toggleOpen}
+        >
+          <DropdownOption label="All Countries" active={!filters.country}
+            onClick={() => selectValue("country", "")} />
+          {COUNTRIES.map(c => (
+            <DropdownOption key={c} label={c} active={filters.country === c}
+              onClick={() => selectValue("country", c)} />
+          ))}
+        </DropdownFilter>
 
-          {hasActive && (
-            <button className="fb-clear" onClick={onClear} type="button">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{width:14,height:14}}>
-                <line x1="18" y1="6" x2="6" y2="18"/>
-                <line x1="6" y1="6" x2="18" y2="18"/>
-              </svg>
-              Clear all
-            </button>
-          )}
-        </div>
-
+        {hasActive && (
+          <button className="li-fb-clear" onClick={onClear} type="button">
+            Clear all
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{width:12,height:12}}>
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        )}
       </div>
 
-      {/* Scoped animated styles ---------------------------------------- */}
       <style jsx>{`
-        .fb-wrap {
-          margin-top:  0 0 1.25rem 0; 
-          animation: fb-fade-in 0.5s ease both;
-        }
-        .fb-inner {
-          display: flex;
-          flex-direction: column;
-          gap: 0.9rem;
-          padding: 1.1rem 1.25rem;
-          background: linear-gradient(135deg,
-            rgba(255,255,255,0.9) 0%,
-            rgba(245,247,250,0.9) 100%);
-          border: 1px solid rgba(0,0,0,0.06);
-          border-radius: 18px;
-          box-shadow:
-            0 1px 2px rgba(16,24,40,0.04),
-            0 8px 24px -12px rgba(16,24,40,0.12);
-          backdrop-filter: blur(10px);
-        }
-        .fb-selects {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.75rem;
-          align-items: flex-end;
-          padding-top: 0.4rem;
-          border-top: 1px dashed rgba(0,0,0,0.08);
-        }
-        .fb-select-wrap {
+        .li-fb {
+          margin: 0 0 1.25rem 0;
           position: relative;
-          flex: 1 1 220px;
-          min-width: 180px;
         }
-        .fb-select-label {
-          display: block;
-          font-size: 0.72rem;
-          font-weight: 600;
-          letter-spacing: 0.04em;
-          text-transform: uppercase;
-          color: #5E6E82;
-          margin-bottom: 0.35rem;
-        }
-        .fb-select {
-          width: 100%;
-          appearance: none;
-          -webkit-appearance: none;
-          padding: 0.72rem 2.2rem 0.72rem 0.9rem;
-          border-radius: 12px;
-          border: 1.5px solid rgba(0,0,0,0.08);
-          background: #fff;
-          font-size: 0.92rem;
-          font-weight: 500;
-          color: #1a2233;
-          cursor: pointer;
-          transition:
-            border-color 0.25s ease,
-            box-shadow 0.25s ease,
-            transform 0.15s ease;
-        }
-        .fb-select:hover { border-color: #4f46e5; transform: translateY(-1px); }
-        .fb-select:focus {
-          outline: none;
-          border-color: #4f46e5;
-          box-shadow: 0 0 0 4px rgba(79,70,229,0.15);
-        }
-        .fb-select-arrow {
-          position: absolute;
-          right: 0.9rem;
-          bottom: 0.75rem;
-          pointer-events: none;
-          color: #4f46e5;
-          font-size: 0.9rem;
-          transition: transform 0.2s ease;
-        }
-        .fb-select-wrap:hover .fb-select-arrow { transform: translateY(2px); }
-
-        .fb-clear {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.4rem;
-          padding: 0.6rem 0.95rem;
-          border-radius: 999px;
-          border: 1.5px solid rgba(220, 38, 38, 0.25);
-          background: rgba(254, 226, 226, 0.6);
-          color: #b91c1c;
-          font-size: 0.82rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-          animation: fb-pop-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-          margin-bottom: 0.05rem;
-        }
-        .fb-clear:hover {
-          background: #fecaca;
-          transform: translateY(-1px) scale(1.02);
-          box-shadow: 0 4px 12px -4px rgba(220,38,38,0.4);
-        }
-
-        @keyframes fb-fade-in {
-          from { opacity: 0; transform: translateY(-6px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fb-pop-in {
-          0%   { opacity: 0; transform: scale(0.6); }
-          100% { opacity: 1; transform: scale(1); }
-        }
-
-        @media (max-width: 720px) {
-          .fb-inner { padding: 0.9rem; border-radius: 14px; }
-          .fb-selects { flex-direction: column; align-items: stretch; }
-        }
-      `}</style>
-    </div>
-  );
-}
-
-// One horizontal filter row: label + horizontally scrollable pills
-function FilterGroup({
-  icon, label, children,
-}: { icon: string; label: string; children: React.ReactNode }) {
-  return (
-    <div className="fg">
-      <div className="fg-label">
-        <span className="fg-icon">{icon}</span>
-        <span>{label}</span>
-      </div>
-      <div className="fg-pills">{children}</div>
-
-      <style jsx>{`
-        .fg {
-          display: grid;
-          grid-template-columns: 140px 1fr;
-          align-items: center;
-          gap: 0.8rem;
-        }
-        .fg-label {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.45rem;
-          font-size: 0.78rem;
-          font-weight: 700;
-          color: #364256;
-          letter-spacing: 0.03em;
-          text-transform: uppercase;
-        }
-        .fg-icon {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 26px; height: 26px;
-          border-radius: 8px;
-          background: linear-gradient(135deg, #eef2ff, #e0e7ff);
-          font-size: 0.85rem;
-        }
-        .fg-pills {
+        .li-fb-row {
           display: flex;
-          flex-wrap: wrap;
+          align-items: center;
           gap: 0.5rem;
           overflow-x: auto;
-          scrollbar-width: none;
+          padding: 0.15rem 0.1rem 0.5rem;
+          scrollbar-width: thin;
         }
-        .fg-pills::-webkit-scrollbar { display: none; }
+        .li-fb-row::-webkit-scrollbar { height: 5px; }
+        .li-fb-row::-webkit-scrollbar-thumb { background: rgba(10,102,194,0.25); border-radius: 999px; }
 
-        @media (max-width: 720px) {
-          .fg { grid-template-columns: 1fr; gap: 0.4rem; }
-          .fg-pills { flex-wrap: nowrap; padding-bottom: 0.2rem; }
+        .li-fb-clear {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.3rem;
+          flex-shrink: 0;
+          padding: 0.5rem 0.85rem;
+          border-radius: 999px;
+          border: none;
+          background: transparent;
+          color: #0a66c2;
+          font-size: 0.85rem;
+          font-weight: 600;
+          cursor: pointer;
+          white-space: nowrap;
+          transition: background 0.2s ease, color 0.2s ease;
         }
+        .li-fb-clear:hover { background: rgba(10,102,194,0.08); }
       `}</style>
     </div>
   );
 }
 
-// Individual animated pill
-function FilterPill({
-  label, active, onClick, delay = 0,
-}: { label: string; active: boolean; onClick: () => void; delay?: number }) {
+// Single pill trigger + its dropdown panel
+function DropdownFilter({
+  label, thisKey, openKey, active, display, onToggle, children, scrollable = false,
+}: {
+  label: string; thisKey: string; openKey: string | null; active: boolean;
+  display?: string; onToggle: (k: string) => void; children: React.ReactNode; scrollable?: boolean;
+}) {
+  const isOpen = openKey === thisKey;
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`fp ${active ? "fp--active" : ""}`}
-      style={{ animationDelay: `${delay}ms` }}
-    >
-      <span className="fp-label">{label}</span>
-      {active && <span className="fp-dot" aria-hidden />}
+    <div className="dd-wrap">
+      <button
+        type="button"
+        className={`dd-trigger ${active ? "dd-trigger--active" : ""} ${isOpen ? "dd-trigger--open" : ""}`}
+        onClick={() => onToggle(thisKey)}
+      >
+        <span>{active && display ? display : label}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="dd-chevron">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+
+      {isOpen && (
+        <div className={`dd-panel ${scrollable ? "dd-panel--scroll" : ""}`}>
+          {children}
+        </div>
+      )}
 
       <style jsx>{`
-        .fp {
-          position: relative;
+        .dd-wrap { position: relative; flex-shrink: 0; }
+
+        .dd-trigger {
           display: inline-flex;
           align-items: center;
           gap: 0.4rem;
-          padding: 0.5rem 0.95rem;
+          padding: 0.5rem 0.85rem;
           border-radius: 999px;
-          border: 1.5px solid rgba(0,0,0,0.09);
-          background: #ffffff;
-          color: #364256;
+          border: 1.5px solid rgba(0,0,0,0.15);
+          background: #fff;
+          color: #1a2233;
           font-size: 0.85rem;
           font-weight: 600;
           white-space: nowrap;
           cursor: pointer;
-          user-select: none;
-          transition:
-            transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
-            background 0.25s ease,
-            color 0.25s ease,
-            border-color 0.25s ease,
-            box-shadow 0.25s ease;
-          animation: fp-in 0.35s ease both;
+          transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
         }
-        .fp:hover {
-          transform: translateY(-2px);
-          border-color: #a5b4fc;
-          box-shadow: 0 6px 16px -8px rgba(79,70,229,0.35);
-        }
-        .fp:active { transform: translateY(0) scale(0.97); }
+        .dd-trigger:hover { border-color: #0a66c2; background: rgba(10,102,194,0.04); }
 
-        .fp--active {
-          background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-          color: #ffffff;
-          border-color: transparent;
-          box-shadow:
-            0 6px 16px -6px rgba(79,70,229,0.55),
-            inset 0 0 0 1px rgba(255,255,255,0.15);
+        .dd-trigger--active {
+          background: rgba(10,102,194,0.1);
+          border-color: #0a66c2;
+          color: #0a66c2;
         }
-        .fp--active:hover {
-          transform: translateY(-2px) scale(1.03);
-          box-shadow: 0 10px 22px -8px rgba(79,70,229,0.65);
+        .dd-trigger--open {
+          border-color: #0a66c2;
+          box-shadow: 0 0 0 3px rgba(10,102,194,0.15);
         }
 
-        .fp-dot {
-          width: 6px; height: 6px;
-          border-radius: 50%;
-          background: #ffffff;
-          box-shadow: 0 0 0 3px rgba(255,255,255,0.25);
-          animation: fp-pulse 1.6s ease-in-out infinite;
+        .dd-chevron {
+          width: 13px; height: 13px;
+          transition: transform 0.2s ease;
+        }
+        .dd-trigger--open .dd-chevron { transform: rotate(180deg); }
+
+        .dd-panel {
+          position: absolute;
+          top: calc(100% + 8px);
+          left: 0;
+          min-width: 220px;
+          max-width: 280px;
+          background: #fff;
+          border: 1px solid rgba(0,0,0,0.08);
+          border-radius: 14px;
+          box-shadow: 0 12px 32px -8px rgba(16,24,40,0.22);
+          padding: 0.5rem;
+          z-index: 30;
+          animation: dd-drop-in 0.18s ease both;
+        }
+        .dd-panel--scroll {
+          max-height: 280px;
+          overflow-y: auto;
         }
 
-        @keyframes fp-in {
-          from { opacity: 0; transform: translateY(4px) scale(0.96); }
-          to   { opacity: 1; transform: translateY(0)  scale(1); }
+        @keyframes dd-drop-in {
+          from { opacity: 0; transform: translateY(-6px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
-        @keyframes fp-pulse {
-          0%,100% { opacity: 1;   transform: scale(1); }
-          50%     { opacity: 0.55; transform: scale(1.25); }
+
+        @media (max-width: 720px) {
+          .dd-panel { left: auto; right: 0; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+// Single row inside a dropdown panel
+function DropdownOption({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
+  return (
+    <button type="button" className={`opt ${active ? "opt--active" : ""}`} onClick={onClick}>
+      <span className="opt-check">
+        {active && (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{width:11,height:11}}>
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        )}
+      </span>
+      {label}
+
+      <style jsx>{`
+        .opt {
+          display: flex;
+          align-items: center;
+          gap: 0.6rem;
+          width: 100%;
+          padding: 0.55rem 0.6rem;
+          border: none;
+          background: transparent;
+          border-radius: 8px;
+          font-size: 0.87rem;
+          font-weight: 500;
+          color: #333d4b;
+          text-align: left;
+          cursor: pointer;
+          transition: background 0.15s ease;
+        }
+        .opt:hover { background: #f2f6fb; }
+        .opt--active { color: #0a66c2; font-weight: 700; background: rgba(10,102,194,0.06); }
+
+        .opt-check {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 16px; height: 16px;
+          border-radius: 4px;
+          border: 1.5px solid ${''}#c7d0dc;
+          flex-shrink: 0;
+          color: #fff;
+          background: ${''}transparent;
+        }
+        .opt--active .opt-check {
+          background: #0a66c2;
+          border-color: #0a66c2;
         }
       `}</style>
     </button>
   );
 }
+
+// One horizontal filter row: label + horizontally scrollable pills
+// function FilterGroup({
+//   icon, label, children,
+// }: { icon: string; label: string; children: React.ReactNode }) {
+//   return (
+//     <div className="fg">
+//       <div className="fg-label">
+//         <span className="fg-icon">{icon}</span>
+//         <span>{label}</span>
+//       </div>
+//       <div className="fg-pills">{children}</div>
+
+//       <style jsx>{`
+//         .fg {
+//           display: grid;
+//           grid-template-columns: 140px 1fr;
+//           align-items: center;
+//           gap: 0.8rem;
+//         }
+//         .fg-label {
+//           display: inline-flex;
+//           align-items: center;
+//           gap: 0.45rem;
+//           font-size: 0.78rem;
+//           font-weight: 700;
+//           color: #364256;
+//           letter-spacing: 0.03em;
+//           text-transform: uppercase;
+//         }
+//         .fg-icon {
+//           display: inline-flex;
+//           align-items: center;
+//           justify-content: center;
+//           width: 26px; height: 26px;
+//           border-radius: 8px;
+//           background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+//           font-size: 0.85rem;
+//         }
+//         .fg-pills {
+//           display: flex;
+//           flex-wrap: wrap;
+//           gap: 0.5rem;
+//           overflow-x: auto;
+//           scrollbar-width: none;
+//         }
+//         .fg-pills::-webkit-scrollbar { display: none; }
+
+//         @media (max-width: 720px) {
+//           .fg { grid-template-columns: 1fr; gap: 0.4rem; }
+//           .fg-pills { flex-wrap: nowrap; padding-bottom: 0.2rem; }
+//         }
+//       `}</style>
+//     </div>
+//   );
+// }
+
+// // Individual animated pill
+// function FilterPill({
+//   label, active, onClick, delay = 0,
+// }: { label: string; active: boolean; onClick: () => void; delay?: number }) {
+//   return (
+//     <button
+//       type="button"
+//       onClick={onClick}
+//       className={`fp ${active ? "fp--active" : ""}`}
+//       style={{ animationDelay: `${delay}ms` }}
+//     >
+//       <span className="fp-label">{label}</span>
+//       {active && <span className="fp-dot" aria-hidden />}
+
+//       <style jsx>{`
+//         .fp {
+//           position: relative;
+//           display: inline-flex;
+//           align-items: center;
+//           gap: 0.4rem;
+//           padding: 0.5rem 0.95rem;
+//           border-radius: 999px;
+//           border: 1.5px solid rgba(0,0,0,0.09);
+//           background: #ffffff;
+//           color: #364256;
+//           font-size: 0.85rem;
+//           font-weight: 600;
+//           white-space: nowrap;
+//           cursor: pointer;
+//           user-select: none;
+//           transition:
+//             transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
+//             background 0.25s ease,
+//             color 0.25s ease,
+//             border-color 0.25s ease,
+//             box-shadow 0.25s ease;
+//           animation: fp-in 0.35s ease both;
+//         }
+//         .fp:hover {
+//           transform: translateY(-2px);
+//           border-color: #a5b4fc;
+//           box-shadow: 0 6px 16px -8px rgba(79,70,229,0.35);
+//         }
+//         .fp:active { transform: translateY(0) scale(0.97); }
+
+//         .fp--active {
+//           background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+//           color: #ffffff;
+//           border-color: transparent;
+//           box-shadow:
+//             0 6px 16px -6px rgba(79,70,229,0.55),
+//             inset 0 0 0 1px rgba(255,255,255,0.15);
+//         }
+//         .fp--active:hover {
+//           transform: translateY(-2px) scale(1.03);
+//           box-shadow: 0 10px 22px -8px rgba(79,70,229,0.65);
+//         }
+
+//         .fp-dot {
+//           width: 6px; height: 6px;
+//           border-radius: 50%;
+//           background: #ffffff;
+//           box-shadow: 0 0 0 3px rgba(255,255,255,0.25);
+//           animation: fp-pulse 1.6s ease-in-out infinite;
+//         }
+
+//         @keyframes fp-in {
+//           from { opacity: 0; transform: translateY(4px) scale(0.96); }
+//           to   { opacity: 1; transform: translateY(0)  scale(1); }
+//         }
+//         @keyframes fp-pulse {
+//           0%,100% { opacity: 1;   transform: scale(1); }
+//           50%     { opacity: 0.55; transform: scale(1.25); }
+//         }
+//       `}</style>
+//     </button>
+//   );
+// }
 
 // ── Main Page ─────────────────────────────────────────────────────────
 export default function JobsPage() {
