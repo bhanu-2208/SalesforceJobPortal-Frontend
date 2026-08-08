@@ -840,6 +840,8 @@ function FilterBar({
         .li-fb {
           margin: 0 0 1.25rem 0;
           position: relative;
+          max-width: 1200px;
++   margin-inline: auto;
         }
         .li-fb-row {
           display: flex;
