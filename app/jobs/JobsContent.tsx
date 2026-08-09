@@ -521,6 +521,8 @@ function PostJobModal({
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [menuStyle, setMenuStyle] =
+  useState<React.CSSProperties>({});
 
   const set = (key: string, value: string) => {
     setForm((prev) => ({
@@ -1402,13 +1404,62 @@ function FilterDropdown({
   onChange: (value: string) => void;
   searchable?: boolean;
 }) {
+  const [menuStyle, setMenuStyle] =
+  useState<React.CSSProperties>({});
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
 
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   const active = Boolean(value);
+  const openDropdown = () => {
+  if (window.innerWidth <= 900 && buttonRef.current) {
+    const rect =
+      buttonRef.current.getBoundingClientRect();
 
+    const menuHeight = 390;
+    const gap = 8;
+
+    const spaceAbove = rect.top;
+    const spaceBelow =
+      window.innerHeight - rect.bottom;
+
+    // Prefer above when there is enough room
+    if (spaceAbove >= menuHeight + gap) {
+      setMenuStyle({
+        position: "fixed",
+        left: "12px",
+        bottom: "auto",
+        top: `${rect.top - menuHeight - gap}px`,
+        width: "calc(100vw - 24px)",
+        maxHeight: `${Math.min(
+          menuHeight,
+          spaceAbove - gap
+        )}px`,
+        zIndex: 9999,
+      });
+    } else {
+      // Otherwise open below
+      setMenuStyle({
+        position: "fixed",
+        left: "12px",
+        top: `${rect.bottom + gap}px`,
+        bottom: "auto",
+        width: "calc(100vw - 24px)",
+        maxHeight: `${Math.min(
+          menuHeight,
+          spaceBelow - gap
+        )}px`,
+        zIndex: 9999,
+      });
+    }
+  } else {
+    setMenuStyle({});
+  }
+
+  setOpen((prev) => !prev);
+};
   useEffect(() => {
     const handleClickOutside = (
       event: MouseEvent
@@ -1462,11 +1513,12 @@ function FilterDropdown({
       ref={wrapperRef}
     >
       <button
+        ref={buttonRef}
         type="button"
         className={`li-filter ${
           active ? "li-filter--active" : ""
         } ${open ? "li-filter--open" : ""}`}
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={openDropdown}
         aria-expanded={open}
       >
         <span>{value || label}</span>
@@ -1484,7 +1536,7 @@ function FilterDropdown({
       </button>
 
       {open && (
-        <div className="li-filter-menu">
+        <div className="li-filter-menu" style={menuStyle}>
           <div className="li-filter-menu__header">
             <span>{label}</span>
 
@@ -2916,6 +2968,19 @@ export default function JobsPage() {
               1
             );
         }
+       @media (max-width: 900px) {
+        .li-filter-menu {
+          position: fixed;
+          width: auto;
+          max-width: none;
+          overflow: hidden;
+          z-index: 9999;
+        }
+
+        .li-filter-options {
+          overflow-y: auto;
+        }
+      }
 
         @keyframes countPop {
           from {
@@ -2933,20 +2998,7 @@ export default function JobsPage() {
            MOBILE
         ========================================================= */
 
-        @media (max-width: 900px) {
-          .linkedin-filter-row {
-            padding-right: 0.5rem;
-          }
-
-          .li-filter-menu {
-            position: fixed;
-            left: 1rem;
-            right: 1rem;
-            top: auto;
-            width: auto;
-            max-width: none;
-          }
-        }
+       
 
         @media (max-width: 600px) {
           .jobs-search-filter-area {
@@ -2981,22 +3033,29 @@ export default function JobsPage() {
         /* =========================================================
            REDUCED MOTION
         ========================================================= */
+        @media (max-width: 900px) {
+        .li-filter-menu {
+          position: fixed;
+          left: 1rem;
+          right: 1rem;
+          bottom: 1rem;
+          top: auto;
 
-        @media (prefers-reduced-motion: reduce) {
-          .linkedin-filter-section,
-          .li-filter-menu,
-          .active-filter-chip,
-          .all-filter-count {
-            animation: none !important;
-          }
+          width: auto;
+          max-width: none;
 
-          .li-filter,
-          .jobs-hero__search,
-          .active-filter-chip button,
-          .li-filter-option {
-            transition: none !important;
-          }
+          max-height: calc(100vh - 2rem);
+          overflow: hidden;
+
+          z-index: 9999;
         }
+
+        .li-filter-options {
+          max-height: calc(100vh - 170px);
+          overflow-y: auto;
+        }
+      }
+        
           @media (max-width: 900px) {
           .linkedin-filter-row {
             justify-content: flex-start;
