@@ -1769,6 +1769,14 @@ function FilterToolbar({
           display: none;
         }
 
+        /* Tablet and mobile */
+        @media (max-width: 900px) {
+          .linkedin-filter-row {
+            justify-content: flex-start;
+            padding-left: 0.25rem;
+            padding-right: 0.5rem;
+          }
+        }
         @keyframes filterSectionIn {
           from {
             opacity: 0;
