@@ -1763,16 +1763,7 @@ function FilterToolbar({
             both;
         }
 
-        .linkedin-filter-row {
-          display: flex;
-          align-items: center;
-          gap: 0.65rem;
-          width: 100%;
-          overflow-x: auto;
-          padding: 0.15rem 0.1rem
-            0.6rem;
-          scrollbar-width: none;
-        }
+        .linkedin-filter-row { display: flex; align-items: center; justify-content: center; gap: 0.65rem; width: 100%; overflow-x: auto; padding: 0.15rem 0.1rem 0.6rem; scrollbar-width: none; }
 
         .linkedin-filter-row::-webkit-scrollbar {
           display: none;
