@@ -2997,6 +2997,34 @@ export default function JobsPage() {
             transition: none !important;
           }
         }
+          @media (max-width: 900px) {
+          .linkedin-filter-row {
+            justify-content: flex-start;
+            padding-left: 0.25rem;
+            padding-right: 0.5rem;
+          }
+
+          .li-filter,
+          .li-all-filters {
+            flex-shrink: 0;
+          }
+
+          .li-filter-menu {
+            position: fixed;
+            left: 1rem;
+            right: 1rem;
+
+            /* Open above the filter buttons */
+            bottom: 70px;
+            top: auto;
+
+            width: auto;
+            max-width: none;
+
+            max-height: calc(100vh - 100px);
+            overflow: hidden;
+          }
+        }
       `}</style>
     </>
   );
