@@ -2470,10 +2470,12 @@ export default function JobsPage() {
         ========================================================= */
 
         .jobs-search-filter-area {
-          width: 100%;
-          margin-top: 1.15rem;
-        }
-
+            width: 100%;
+            max-width: 1400px;
+            margin: 1.15rem auto 0;
+            padding: 0 1rem;
+            box-sizing: border-box;
+          }
         .jobs-hero__search {
           position: relative;
           display: flex;
@@ -2482,6 +2484,8 @@ export default function JobsPage() {
           width: 100%;
           min-height: 54px;
           padding: 0 1rem;
+          width: 100%;
+          box-sizing: border-box;
           border-radius: 14px;
           background: rgba(
             255,
