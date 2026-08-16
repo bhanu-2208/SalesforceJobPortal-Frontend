@@ -10540,3 +10540,18 @@ body {
         flex-shrink:0;
     }
 }
+
+/* ======================================================
+   CANDIDATE DETAIL PAGE — round avatar variant
+   Paste into bottom of globals.css
+   (everything else this page uses — jdetail-*, job-card__skills,
+   skill-tag, badge, ats-score-ring/row, cand-timeline-item — already
+   exists from the job detail page, candidates page, and ATS score
+   features. This is the only genuinely new class needed.)
+   ====================================================== */
+
+.jdetail-logo--round {
+  border-radius: 50%;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.15);
+}
