@@ -38,7 +38,7 @@ function fmtMonthYear(d?: string): string {
 export default function CandidateDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const userId = params?.userId as string;
+  const userId = params?.slug as string;
 
   const [me, setMe] = useState<User | null>(null);
   const [profile, setProfile] = useState<any>(null);
