@@ -593,7 +593,7 @@ export default function CandidatesPage() {
                         candidate={c}
                         saved={savedIds.has(c.userId)}
                         onToggleSave={handleToggleSave}
-                        onView={setSelectedCandidateId}
+                        onView={(id) => router.push(`/candidates/${id}`)}
                       />
                     ))}
                   </div>
