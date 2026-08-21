@@ -10731,15 +10731,44 @@ body {
   }
 }
 
-/* ── Tablet breakpoint — slightly different rules ── */
-@media (min-width: 641px) and (max-width: 900px) {
+/* ── Tablet / medium screens — fluid columns, no fixed count ── */
+@media (min-width: 641px) and (max-width: 1024px) {
   .jobs-grid,
   .latest-jobs__grid,
-  .companies-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
+  .companies-grid,
+  .saved-grid,
+  .admin-fb-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important;
+    gap: 1rem;
   }
 
   .jobs-layout {
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 220px 1fr;
+    gap: 1rem;
   }
+
+  .jobs-sidebar {
+    padding: 1rem;
+  }
+
+  .job-card {
+    padding: 1.125rem;
+  }
+}
+
+/* ── Safety net — prevent any card from ever forcing horizontal scroll ── */
+.job-card,
+.jobs-grid,
+.jobs-layout,
+.jobs-body,
+.jobs-page {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.job-card__title,
+.job-card__company,
+.job-card__info-item {
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
