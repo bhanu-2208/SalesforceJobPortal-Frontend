@@ -16,7 +16,7 @@ const SalesforceIcon = () => (
     />
     <text x="50" y="42" textAnchor="middle" fontFamily="Arial, sans-serif"
       fontWeight="bold" fontSize="18" fill="#ffffff" letterSpacing="0.5">
-      salesforce
+      sf
     </text>
   </svg>
 );

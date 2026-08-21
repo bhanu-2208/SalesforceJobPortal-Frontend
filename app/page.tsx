@@ -14,7 +14,7 @@ export default function Home() {
       <Navbar />
       <main>
         <HeroSection />
-        <PopularCategories />
+        {/* <PopularCategories /> */}
         <LatestJobs />
         <FeaturesSection/>
         <Testimonials />
