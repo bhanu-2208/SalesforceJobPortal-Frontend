@@ -93,6 +93,107 @@ function authHeaders(): Record<string, string> {
 }
 
 // ── Candidate Card ────────────────────────────────────────────────────
+// function CandidateCard({
+//   candidate,
+//   saved,
+//   onToggleSave,
+//   onView,
+// }: {
+//   candidate: Candidate;
+//   saved: boolean;
+//   onToggleSave: (id: string) => void;
+//   onView: (id: string) => void;
+// }) {
+//   const skills = [...(candidate.salesforceSkills ?? []), ...(candidate.skills ?? [])];
+//   const hasScore = typeof candidate.matchScore === "number";
+
+//   return (
+//     <div className="job-card cand-card">
+//       <div className="job-card__header">
+//         <div className="job-card__logo" style={{ borderRadius: "50%", overflow: "hidden" }}>
+//           {candidate.avatar ? (
+//             <img src={resolveAvatarSrc(candidate.avatar, API, 44)} alt="" className="job-card__logo-img" />
+//           ) : (
+//             initials(candidate.name)
+//           )}
+//         </div>
+//         <div className="job-card__meta">
+//           <h3 className="job-card__title">{candidate.name}</h3>
+//           <span className="job-card__company">
+//             {candidate.currentDesignation || candidate.headline || "Salesforce Professional"}
+//             {candidate.currentCompany ? ` @ ${candidate.currentCompany}` : ""}
+//           </span>
+//         </div>
+
+//         {hasScore ? (
+//           <div className="cand-match-badge" style={{ "--score-color": scoreColor(candidate.matchScore!) } as React.CSSProperties} title="Match score against the pasted job description">
+//             {candidate.matchScore}%
+//           </div>
+//         ) : (
+//           <button
+//             className={`job-card__save-btn ${saved ? "job-card__save-btn--saved" : ""}`}
+//             onClick={() => onToggleSave(candidate.userId)}
+//             aria-label={saved ? "Remove from saved" : "Save candidate"}
+//             title={saved ? "Saved — click to remove" : "Save for later"}
+//           >
+//             <svg viewBox="0 0 24 24" fill={saved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: 15, height: 15 }}>
+//               <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+//             </svg>
+//           </button>
+//         )}
+//       </div>
+
+//       <div className="job-card__info">
+//         {(candidate.location?.city || candidate.location?.country) && (
+//           <span className="job-card__info-item">
+//             📍 {[candidate.location?.city, candidate.location?.country].filter(Boolean).join(", ")}
+//           </span>
+//         )}
+//         <span className="job-card__info-item">
+//           💼 {candidate.totalExperienceYears ?? 0}y {candidate.totalExperienceMonths ?? 0}m
+//         </span>
+//         <span className="job-card__info-item">⏳ {noticeLabel(candidate.noticePeriod)}</span>
+//         {candidate.willingToRelocate && <span className="badge badge--green">Open to relocate</span>}
+//       </div>
+
+//       {/* When ranked: show matched/missing JD skills instead of the generic skill list */}
+//       {hasScore ? (
+//         <div className="job-card__skills">
+//           {(candidate.matchedSkills ?? []).map((s) => <span key={`m-${s}`} className="skill-tag ats-tag--matched">{s}</span>)}
+//           {(candidate.missingSkills ?? []).slice(0, 3).map((s) => <span key={`x-${s}`} className="skill-tag ats-tag--missing">{s}</span>)}
+//         </div>
+//       ) : (
+//         skills.length > 0 && (
+//           <div className="job-card__skills">
+//             {skills.slice(0, 5).map((s) => <span key={s} className="skill-tag">{s}</span>)}
+//             {skills.length > 5 && <span className="skill-tag">+{skills.length - 5}</span>}
+//           </div>
+//         )
+//       )}
+
+//       <div className="job-card__actions">
+//         <button className="btn btn--primary btn--sm" onClick={() => onView(candidate.userId)}>View Profile</button>
+//         {candidate.resume?.url && (
+//           <a href={resolveResumeUrl(candidate.resume.url, API)} target="_blank" rel="noreferrer" className="btn btn--ghost btn--sm">
+//             📄 Resume
+//           </a>
+//         )}
+//         {hasScore && (
+//           <button
+//             className={`job-card__save-btn ${saved ? "job-card__save-btn--saved" : ""}`}
+//             onClick={() => onToggleSave(candidate.userId)}
+//             aria-label={saved ? "Remove from saved" : "Save candidate"}
+//             style={{ marginLeft: "auto" }}
+//           >
+//             <svg viewBox="0 0 24 24" fill={saved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: 15, height: 15 }}>
+//               <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+//             </svg>
+//           </button>
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
 function CandidateCard({
   candidate,
   saved,
@@ -106,7 +207,7 @@ function CandidateCard({
 }) {
   const skills = [...(candidate.salesforceSkills ?? []), ...(candidate.skills ?? [])];
   const hasScore = typeof candidate.matchScore === "number";
-
+ 
   return (
     <div className="job-card cand-card">
       <div className="job-card__header">
@@ -124,25 +225,21 @@ function CandidateCard({
             {candidate.currentCompany ? ` @ ${candidate.currentCompany}` : ""}
           </span>
         </div>
-
-        {hasScore ? (
-          <div className="cand-match-badge" style={{ "--score-color": scoreColor(candidate.matchScore!) } as React.CSSProperties} title="Match score against the pasted job description">
+ 
+        {/* Only the match-score badge stays in the header now — it's
+            a small fixed-size circle (44x44), never a layout risk the
+            way a button competing for header space was. */}
+        {hasScore && (
+          <div
+            className="cand-match-badge"
+            style={{ "--score-color": scoreColor(candidate.matchScore!) } as React.CSSProperties}
+            title="Match score against the pasted job description"
+          >
             {candidate.matchScore}%
           </div>
-        ) : (
-          <button
-            className={`job-card__save-btn ${saved ? "job-card__save-btn--saved" : ""}`}
-            onClick={() => onToggleSave(candidate.userId)}
-            aria-label={saved ? "Remove from saved" : "Save candidate"}
-            title={saved ? "Saved — click to remove" : "Save for later"}
-          >
-            <svg viewBox="0 0 24 24" fill={saved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: 15, height: 15 }}>
-              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-            </svg>
-          </button>
         )}
       </div>
-
+ 
       <div className="job-card__info">
         {(candidate.location?.city || candidate.location?.country) && (
           <span className="job-card__info-item">
@@ -155,8 +252,7 @@ function CandidateCard({
         <span className="job-card__info-item">⏳ {noticeLabel(candidate.noticePeriod)}</span>
         {candidate.willingToRelocate && <span className="badge badge--green">Open to relocate</span>}
       </div>
-
-      {/* When ranked: show matched/missing JD skills instead of the generic skill list */}
+ 
       {hasScore ? (
         <div className="job-card__skills">
           {(candidate.matchedSkills ?? []).map((s) => <span key={`m-${s}`} className="skill-tag ats-tag--matched">{s}</span>)}
@@ -170,7 +266,10 @@ function CandidateCard({
           </div>
         )
       )}
-
+ 
+      {/* Save button always lives here now — bottom row, alongside
+          the other actions, on every card regardless of whether a
+          match score is showing. */}
       <div className="job-card__actions">
         <button className="btn btn--primary btn--sm" onClick={() => onView(candidate.userId)}>View Profile</button>
         {candidate.resume?.url && (
@@ -178,18 +277,16 @@ function CandidateCard({
             📄 Resume
           </a>
         )}
-        {hasScore && (
-          <button
-            className={`job-card__save-btn ${saved ? "job-card__save-btn--saved" : ""}`}
-            onClick={() => onToggleSave(candidate.userId)}
-            aria-label={saved ? "Remove from saved" : "Save candidate"}
-            style={{ marginLeft: "auto" }}
-          >
-            <svg viewBox="0 0 24 24" fill={saved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: 15, height: 15 }}>
-              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-            </svg>
-          </button>
-        )}
+        <button
+          className={`job-card__save-btn cand-save-btn--push ${saved ? "job-card__save-btn--saved" : ""}`}
+          onClick={() => onToggleSave(candidate.userId)}
+          aria-label={saved ? "Remove from saved" : "Save candidate"}
+          title={saved ? "Saved — click to remove" : "Save for later"}
+        >
+          <svg viewBox="0 0 24 24" fill={saved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: 15, height: 15 }}>
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+          </svg>
+        </button>
       </div>
     </div>
   );
