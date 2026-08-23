@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import { getValidToken } from "@/lib/api";
 import { useSearchParams } from "next/navigation";
 import ApplyConfirmModal from "@/components/Applyconfirmmodal";
+import EditJobModal from "@/components/EditJobModal";
 
 const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 
@@ -411,6 +412,7 @@ function PostJobModal({ token, onClose, onSuccess }: { token: string; onClose: (
 function JobCard({ job, user, onDelete }: { job: Job; user: User | null; onDelete: (id: string) => void }) {
   const [saved,  setSaved]  = useState(false);
   const [saving, setSaving] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const handleSave = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -513,8 +515,24 @@ function JobCard({ job, user, onDelete }: { job: Job; user: User | null; onDelet
             </svg>
           </button>
         )}
+        {(user?.role === "admin" || (user?.role === "recruiter" && job.postedBy === user.id)) && (
+          <button className="btn btn--ghost btn--sm" onClick={() => setShowEditModal(true)}>
+            ✏️ Edit
+          </button>
+        )}
       </div>
+      {showEditModal && (
+        <EditJobModal
+          job={job}
+          onClose={() => setShowEditModal(false)}
+          onSuccess={(updated) => {
+            setShowEditModal(false);
+            window.location.reload(); // simplest refresh — or lift state up to update in place
+          }}
+        />
+      )}
     </div>
+
   );
 }
 
