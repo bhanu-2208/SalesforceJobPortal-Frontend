@@ -516,7 +516,7 @@ function JobCard({ job, user, onDelete }: { job: Job; user: User | null; onDelet
           </button>
         )}
         {(user?.role === "admin" || (user?.role === "recruiter" && job.postedBy === user.id)) && (
-          <button className="btn btn--ghost btn--sm" onClick={() => setShowEditModal(true)}>
+          <button className="btn btn--ghost btn--sm btn--edit" onClick={() => setShowEditModal(true)}>
             ✏️ Edit
           </button>
         )}

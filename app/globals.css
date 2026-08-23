@@ -10772,3 +10772,9 @@ body {
   overflow-wrap: break-word;
   word-break: break-word;
 }
+
+.job-card__actions .btn--edit {
+  padding: 0.3rem 0.5rem;
+  font-size: 0.7rem;
+  min-width: 50px;
+}
