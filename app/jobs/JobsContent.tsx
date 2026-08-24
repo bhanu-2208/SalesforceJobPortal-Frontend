@@ -516,7 +516,7 @@ function JobCard({ job, user, onDelete }: { job: Job; user: User | null; onDelet
           </button>
         )}
         {(user?.role === "admin" || (user?.role === "recruiter" && job.postedBy === user.id)) && (
-           <a href={`/jobs/${job._id}/edit`} className="btn btn--ghost btn--sm job-edit-btn">
+           <a href={`/jobs/${job.slug}/edit`} className="btn btn--ghost btn--sm job-edit-btn">
             ✏️
           </a>
         )}

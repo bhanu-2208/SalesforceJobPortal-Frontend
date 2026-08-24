@@ -26,7 +26,7 @@ const S = ({ label, id, value, onChange, children }: any) => (
 export default function EditJobPage() {
   const params = useParams();
   const router = useRouter();
-  const jobId  = params?.id as string;
+  const jobslug  = params?.slug as string;
 
   const [user,     setUser]     = useState<User | null>(null);
   const [loading,  setLoading]  = useState(true);
@@ -41,6 +41,7 @@ export default function EditJobPage() {
     employmentType: "Full-time", applyUrl: "", skills: "",
     salaryMin: "", salaryMax: "", currency: "INR",
   });
+  const [jobDbId, setJobDbId] = useState("");   // ← ADD THIS LINE HERE
 
   const set = (k: string, v: string) => setForm(p => ({ ...p, [k]: v }));
 
@@ -55,12 +56,12 @@ export default function EditJobPage() {
 
   // Fetch the job and pre-fill the form
   useEffect(() => {
-    if (!jobId || !user) return;
+    if (!jobslug || !user) return;
     (async () => {
       setLoading(true);
       try {
         const token = await getValidToken();
-        const res = await fetch(`${API}/api/jobs/id/${jobId}`, {
+        const res = await fetch(`${API}/api/jobs/${jobslug}`, {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
         });
         const data = await res.json();
@@ -74,6 +75,7 @@ export default function EditJobPage() {
         const isOwner = job.postedBy === user.id;
         const isAdmin = user.role === "admin";
         if (!isOwner && !isAdmin) { setForbidden(true); return; }
+        setJobDbId(job._id);   // ← ADD THIS LINE HERE, right before setForm(...)
 
         setForm({
           title: job.title || "",
@@ -96,7 +98,7 @@ export default function EditJobPage() {
         setLoading(false);
       }
     })();
-  }, [jobId, user]);
+  }, [jobslug, user]);
 
   const handleSave = async () => {
     if (!form.title || !form.description || !form.applyUrl) {
@@ -109,7 +111,7 @@ export default function EditJobPage() {
     if (!token) { router.push("/login"); return; }
 
     try {
-      const res = await fetch(`${API}/api/jobs/${jobId}`, {
+      const res = await fetch(`${API}/api/jobs/${jobDbId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({
