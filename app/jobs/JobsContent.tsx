@@ -480,7 +480,7 @@ function JobCard({ job, user, onDelete }: { job: Job; user: User | null; onDelet
         </div>
       )}
       <div className="job-card__actions">
-        <a href={`/jobs/${job.slug}`} className="btn btn--primary btn--sm">View Details</a>
+        <a href={`/jobs/${job.slug}`} className="btn btn--primary btn--sm">View</a>
         <button
           className="btn btn--ghost btn--sm"
           onClick={() => {
