@@ -10778,3 +10778,20 @@ body {
   font-size: 0.7rem;
   min-width: 50px;
 }
+
+
+.job-edit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 6px;
+  border: 1.5px solid #D8E6F0;
+  background: #ffffff;
+  color: #5E6E82;
+  cursor: pointer;
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: border-color 150ms, color 150ms, background 150ms;
+}
