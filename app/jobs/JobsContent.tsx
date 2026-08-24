@@ -516,21 +516,12 @@ function JobCard({ job, user, onDelete }: { job: Job; user: User | null; onDelet
           </button>
         )}
         {(user?.role === "admin" || (user?.role === "recruiter" && job.postedBy === user.id)) && (
-          <button className="btn btn--ghost btn--sm btn--edit" onClick={() => setShowEditModal(true)}>
+           <a href={`/jobs/${job._id}/edit`} className="btn btn--ghost btn--sm">
             ✏️
-          </button>
+          </a>
         )}
       </div>
-      {showEditModal && (
-        <EditJobModal
-          job={job}
-          onClose={() => setShowEditModal(false)}
-          onSuccess={(updated) => {
-            setShowEditModal(false);
-            window.location.reload(); // simplest refresh — or lift state up to update in place
-          }}
-        />
-      )}
+      
     </div>
 
   );
