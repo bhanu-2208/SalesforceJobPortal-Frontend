@@ -138,9 +138,9 @@ export default function HeroSection() {
       return;
     }
 
-    // "Remote" is a work mode, everything else is treated as a role keyword
-    if (tag === "Remote") {
-      router.push("/jobs?workMode=Remote");
+    // "consultant" is a work mode, everything else is treated as a role keyword
+    if (tag === "consultant") {
+      router.push("/jobs?workMode=consultant");
     } else {
       router.push(`/jobs?role=${encodeURIComponent(tag)}`);
     }
@@ -200,7 +200,6 @@ export default function HeroSection() {
               onKeyDown={handleKeyDown}
             />
           </div>
-
             {/* <select
               className="hero__search-select"
               aria-label="Filter by location"
@@ -212,7 +211,7 @@ export default function HeroSection() {
               <option value="USA">USA</option>
               <option value="UK">UK</option>
               <option value="Germany">Germany</option>
-              <option value="Remote">Remote</option>
+              <option value="consultant">consultant</option>
             </select>
 
             <select
@@ -222,7 +221,7 @@ export default function HeroSection() {
               onChange={(e) => setWorkMode(e.target.value)}
             >
               <option value="">All Work Modes</option>
-              <option value="Remote">Remote</option>
+              <option value="consultant">consultant</option>
               <option value="Hybrid">Hybrid</option>
               <option value="Onsite">Onsite</option>
             </select>
@@ -273,7 +272,7 @@ export default function HeroSection() {
                 onChange={(e) => setWorkMode(e.target.value)}
               >
                 <option value="">All Work Modes</option>
-                <option value="Remote">Remote</option>
+                <option value="consultant">consultant</option>
                 <option value="Hybrid">Hybrid</option>
                 <option value="Onsite">Onsite</option>
               </select>
@@ -295,7 +294,7 @@ export default function HeroSection() {
               <option value="USA">USA</option>
               <option value="UK">UK</option>
               <option value="Germany">Germany</option>
-              <option value="Remote">Remote</option>
+              <option value="consultant">consultant</option>
             </select>
             <button className="hero__search-btn" type="button" onClick={handleSearchClick}>
               Search Jobs
@@ -305,7 +304,7 @@ export default function HeroSection() {
           {/* Quick filters */}
           <div className="hero__quick-filters">
             <span className="hero__quick-label">Popular:</span>
-            {["Developer", "Admin", "Architect", "Marketing Cloud", "Remote"].map((tag) => (
+            {["Developer", "Admin", "Architect", "Analyst", "consultant"].map((tag) => (
               <button
                 key={tag}
                 className="hero__quick-tag"
