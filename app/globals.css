@@ -6740,6 +6740,7 @@ body {
 .jobs-layout {
   display: grid;
   grid-template-columns: 240px 1fr;
+    grid-template-rows: auto;   /* NEW */
   gap: 1.5rem;
   align-items: start;
   align-content: start;   /* NEW — pins the row itself to the top */
@@ -6769,6 +6770,7 @@ body {
 .jobs-sidebar {
   background: #ffffff;
   border-radius: 12px;
+  grid-row: 1;        /* NEW — force onto row 1 */
   border: 1.5px solid #D8E6F0;
   padding: 1.25rem;
   position: sticky;
@@ -6780,6 +6782,8 @@ body {
   min-width: 0;     /* prevents grid blowout from long content */
   margin: 0;              /* NEW */
   align-self: start;      /* NEW */
+  grid-row: 1;         /* NEW — force onto row 1 */
+
 }
 
 .jobs-sidebar__header {
@@ -6848,7 +6852,7 @@ body {
 /* ── Jobs grid ────────────────────────────────────────── */
 .jobs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1.25rem;
   margin-bottom: 2rem;
 }
@@ -10408,8 +10412,12 @@ body {
   }
 
   .job-card__actions {
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;      /* NEW */
+    gap: 0.625rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-sf-border);
   }
 
   .job-card__actions .btn {
