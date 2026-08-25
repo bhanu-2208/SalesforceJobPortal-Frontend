@@ -17,7 +17,7 @@ export default function Home() {
         {/* <PopularCategories /> */}
         <LatestJobs />
         <FeaturesSection/>
-        <Testimonials />
+        {/* <Testimonials /> */}
         <FeedbackForm />
       </main>
       <Footer />
