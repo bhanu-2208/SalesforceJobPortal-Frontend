@@ -199,8 +199,9 @@ export default function HeroSection() {
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={handleKeyDown}
             />
+          </div>
 
-            <select
+            {/* <select
               className="hero__search-select"
               aria-label="Filter by location"
               value={location}
@@ -242,7 +243,7 @@ export default function HeroSection() {
             <button className="hero__search-btn" type="button" onClick={handleSearchClick}>
               Search Jobs
             </button>
-          </div>
+          </div> */}
           {/* <div className="hero__search">
             <div className="hero__search-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
