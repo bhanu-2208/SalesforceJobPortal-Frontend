@@ -10845,3 +10845,15 @@ body {
     padding: 1.125rem;
   }
 }
+
+
+/* ── Upcoming Features section spacing ─────────────────── */
+.features--upcoming {
+  padding-top: 0;
+  border-top: 1px solid var(--color-sf-border);
+  margin-top: 1rem;
+}
+
+.feature-card {
+  align-items: flex-start; /* lets the Coming Soon badge sit left, above the description */
+}
