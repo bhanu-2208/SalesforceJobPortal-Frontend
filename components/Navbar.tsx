@@ -184,7 +184,7 @@ export default function Navbar() {
 
           {/* Logo */}
           <a href="/" className="navbar__brand" aria-label="Go to homepage">
-            <img src="/sftalentcloudlogo.png" alt="SFtalentcloud" className="navbar__logo"/>
+            <img src="/sftalentcloudlogo.png" alt="SFtalentcloud" className="navbar__brand-name"/>
             {/* <SalesforceIcon />
             <span className="navbar__brand-name">TalentCloud</span> */}
           </a>
