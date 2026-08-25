@@ -6742,6 +6742,8 @@ body {
   grid-template-columns: 240px 1fr;
   gap: 1.5rem;
   align-items: start;
+  align-content: start;   /* NEW — pins the row itself to the top */
+
 }
 
 /* Mobile filter toggle */
@@ -6771,6 +6773,13 @@ body {
   padding: 1.25rem;
   position: sticky;
   top: 80px;
+  margin: 0;              /* NEW */
+  align-self: start;      /* NEW */
+}
+.jobs-main {
+  min-width: 0;     /* prevents grid blowout from long content */
+  margin: 0;              /* NEW */
+  align-self: start;      /* NEW */
 }
 
 .jobs-sidebar__header {
@@ -10731,7 +10740,7 @@ body {
   }
 }
 
-/* ── Tablet / medium screens — fluid columns, no fixed count ── */
+/* ── Tablet / medium screens — fluid columns, no fixed count ──
 @media (min-width: 641px) and (max-width: 1024px) {
   .jobs-grid,
   .latest-jobs__grid,
@@ -10754,7 +10763,7 @@ body {
   .job-card {
     padding: 1.125rem;
   }
-}
+} */
 
 /* ── Safety net — prevent any card from ever forcing horizontal scroll ── */
 .job-card,
