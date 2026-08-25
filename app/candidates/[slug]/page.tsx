@@ -170,9 +170,27 @@ export default function CandidateDetailPage() {
 
   const user = profile.user;
   const experienceYears = profile.totalExperienceYears ?? 0;
-  const experienceMonths = profile.totalExperienceMonths ?? 0;
-  const location = [profile.location?.city, profile.location?.country].filter(Boolean).join(", ");
-  const allSkills = [...(profile.salesforceSkills ?? []), ...(profile.skills ?? [])];
+
+    const experienceDisplay =
+      experienceYears === 1
+        ? "1 year"
+        : `${experienceYears} years`;
+
+    const location = [
+      profile.location?.city,
+      profile.location?.country,
+    ]
+      .filter(Boolean)
+      .join(", ");
+
+    const allSkills = [
+      ...(profile.salesforceSkills ?? []),
+      ...(profile.skills ?? []),
+    ];
+  // const experienceYears = profile.totalExperienceYears ?? 0;
+  // const experienceMonths = profile.totalExperienceMonths ?? 0;
+  // const location = [profile.location?.city, profile.location?.country].filter(Boolean).join(", ");
+  // const allSkills = [...(profile.salesforceSkills ?? []), ...(profile.skills ?? [])];
 
   return (
     <>
@@ -245,7 +263,7 @@ export default function CandidateDetailPage() {
               <div className="jdetail-info-row">
                 {[
                   { icon: "📍", label: "Location", value: location || "Not specified" },
-                  { icon: "💼", label: "Experience", value: `${experienceYears}y ${experienceMonths}m` },
+                  { icon: "💼", label: "Experience", value: experienceDisplay},
                   { icon: "⏳", label: "Notice Period", value: noticeLabel(profile.noticePeriod) },
                   { icon: "💰", label: "Expected Salary", value: profile.expectedSalaryLPA ? `₹${profile.expectedSalaryLPA} LPA` : "Not disclosed" },
                   { icon: "✉️", label: "Email", value: user?.email ?? "—" },
@@ -370,7 +388,7 @@ export default function CandidateDetailPage() {
                 <h3 className="jdetail-sidebar-card__title">Candidate Summary</h3>
                 <ul className="jdetail-summary-list">
                   {[
-                    { label: "Experience", value: `${experienceYears}y ${experienceMonths}m` },
+                    { label: "Experience", value: experienceDisplay},
                     { label: "Notice Period", value: noticeLabel(profile.noticePeriod) },
                     { label: "Location", value: location || "—" },
                     { label: "Expected Salary", value: profile.expectedSalaryLPA ? `₹${profile.expectedSalaryLPA} LPA` : "—" },
