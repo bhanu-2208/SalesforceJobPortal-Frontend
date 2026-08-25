@@ -38,7 +38,7 @@ export default function Footer() {
         {/* Brand column */}
         <div className="footer__brand-col">
           <a href="/" className="footer__brand" aria-label="TalentCloud home">
-              <img src="/sftalentcloudlogo.png" alt="SFtalentcloud" className="navbar__logo"/>
+              <img src="/sftalentcloudlogo.png" alt="SFtalentcloud" className="footer__brand-name"/>
             {/* <SalesforceIcon />
             <span className="footer__brand-name">TalentCloud</span> */}
           </a>
