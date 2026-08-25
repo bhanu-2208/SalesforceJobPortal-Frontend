@@ -13,14 +13,6 @@ const FOOTER_LINKS = {
     { label: "Salesforce Admin",      href: "/jobs?role=admin" },
     { label: "Salesforce Architect",  href: "/jobs?role=architect" },
     { label: "Marketing Cloud",       href: "/jobs?role=marketing-cloud" },
-    { label: "Remote Jobs",           href: "/jobs?mode=remote" },
-  ],
-  "Top Locations": [
-    { label: "Jobs in India",         href: "/jobs?location=india" },
-    { label: "Jobs in USA",           href: "/jobs?location=usa" },
-    { label: "Jobs in UK",            href: "/jobs?location=uk" },
-    { label: "Jobs in Germany",       href: "/jobs?location=germany" },
-    { label: "Jobs in Australia",     href: "/jobs?location=australia" },
   ],
   "Company": [
     { label: "About Us",              href: "/about" },
