@@ -10798,6 +10798,7 @@ body {
 
 
 .navbar__logo {
+  margin-left: auto;
   width: 90px;
   height: 60px;
 }
