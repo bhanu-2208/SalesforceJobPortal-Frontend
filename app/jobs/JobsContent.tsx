@@ -53,60 +53,157 @@ const SALESFORCE_ROLES = [
 ];
 
 // ── Filter Sidebar ────────────────────────────────────────────────────
-function FilterSidebar({ filters, onChange, onClear }: { filters: any; onChange: (k: string, v: string) => void; onClear: () => void }) {
+// ── Filter Sidebar (pill-style, same functionality as before) ─────────
+function FilterSidebar({
+  filters, onChange, onClear,
+}: { filters: any; onChange: (k: string, v: string) => void; onClear: () => void }) {
+
+  const WORK_MODES        = ["Remote", "Hybrid", "Onsite"];
+  const EXPERIENCE_LEVELS = ["0 Years", "1-2 Years", "2-6 Years", "6-8 Years", "8-12 Years", "12+ Years"];
+  const EMPLOYMENT_TYPES  = ["Full-time", "Part-time", "Contract", "Internship"];
+  const COUNTRIES         = ["India", "USA", "UK", "Germany", "Australia", "Canada"];
+
+  const hasActive =
+    filters.workMode || filters.experienceLevel || filters.employmentType ||
+    filters.role || filters.country;
+
+  // Same toggle-radio behavior as before: click same value again to clear
+  const toggle = (key: string, value: string) =>
+    onChange(key, filters[key] === value ? "" : value);
+
   return (
     <aside className="jobs-sidebar">
       <div className="jobs-sidebar__header">
         <span className="jobs-sidebar__title">Filters</span>
-        <button className="jobs-sidebar__clear" onClick={onClear}>Clear all</button>
+        {hasActive && (
+          <button className="jobs-sidebar__clear" onClick={onClear} type="button">
+            Clear all
+          </button>
+        )}
       </div>
 
-      <div className="jobs-sidebar__group">
-        <label className="jobs-sidebar__label">Work Mode</label>
-        {["Remote","Hybrid","Onsite"].map(m => (
-          <label key={m} className="jobs-sidebar__check">
-            <input type="radio" name="workMode" value={m} checked={filters.workMode === m} onChange={() => onChange("workMode", filters.workMode === m ? "" : m)} />
-            {m}
-          </label>
+      <SidebarGroup label="Work Mode">
+        {WORK_MODES.map((m, i) => (
+          <FilterPill
+            key={m} label={m} active={filters.workMode === m}
+            onClick={() => toggle("workMode", m)} delay={i * 40}
+          />
         ))}
-      </div>
+      </SidebarGroup>
 
-      <div className="jobs-sidebar__group">
-        <label className="jobs-sidebar__label">Job Role</label>
-        <select className="feedback__select" value={filters.role} onChange={e => onChange("role", e.target.value)}>
-          <option value="">All Roles</option>
-          {SALESFORCE_ROLES.map(r => <option key={r} value={r}>{r}</option>)}
-        </select>
-      </div>
-
-      <div className="jobs-sidebar__group">
-        <label className="jobs-sidebar__label">Experience Level</label>
-        {["0 Years","1-2 Years","2-6 Years","6-8 Years","8-12 Years","12+ Years"].map(e => (
-          <label key={e} className="jobs-sidebar__check">
-            <input type="radio" name="experienceLevel" value={e} checked={filters.experienceLevel === e} onChange={() => onChange("experienceLevel", filters.experienceLevel === e ? "" : e)} />
-            {e}
-          </label>
+      <SidebarGroup label="Experience">
+        {EXPERIENCE_LEVELS.map((e, i) => (
+          <FilterPill
+            key={e} label={e} active={filters.experienceLevel === e}
+            onClick={() => toggle("experienceLevel", e)} delay={i * 40}
+          />
         ))}
-      </div>
+      </SidebarGroup>
 
-      <div className="jobs-sidebar__group">
-        <label className="jobs-sidebar__label">Employment Type</label>
-        {["Full-time","Part-time","Contract","Internship"].map(t => (
-          <label key={t} className="jobs-sidebar__check">
-            <input type="radio" name="employmentType" value={t} checked={filters.employmentType === t} onChange={() => onChange("employmentType", filters.employmentType === t ? "" : t)} />
-            {t}
-          </label>
+      <SidebarGroup label="Employment">
+        {EMPLOYMENT_TYPES.map((t, i) => (
+          <FilterPill
+            key={t} label={t} active={filters.employmentType === t}
+            onClick={() => toggle("employmentType", t)} delay={i * 40}
+          />
         ))}
+      </SidebarGroup>
+
+      <div className="fb-selects fb-selects--sidebar">
+        <div className="fb-select-wrap">
+          <label className="fb-select-label">Job Role</label>
+          <select
+            className="fb-select"
+            value={filters.role}
+            onChange={e => onChange("role", e.target.value)}
+          >
+            <option value="">All Roles</option>
+            {SALESFORCE_ROLES.map(r => <option key={r} value={r}>{r}</option>)}
+          </select>
+          <span className="fb-select-arrow">▾</span>
+        </div>
+
+        <div className="fb-select-wrap">
+          <label className="fb-select-label">Country</label>
+          <select
+            className="fb-select"
+            value={filters.country}
+            onChange={e => onChange("country", e.target.value)}
+          >
+            <option value="">All Countries</option>
+            {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
+          </select>
+          <span className="fb-select-arrow">▾</span>
+        </div>
       </div>
 
-      <div className="jobs-sidebar__group">
-        <label className="jobs-sidebar__label">Country</label>
-        <select className="feedback__select" value={filters.country} onChange={e => onChange("country", e.target.value)}>
-          <option value="">All Countries</option>
-          {["India","USA","UK","Germany","Australia","Canada"].map(c => <option key={c}>{c}</option>)}
-        </select>
-      </div>
+      {/* Scoped styles for the select dropdowns — same look as the
+          old horizontal FilterBar, just stacked vertically here */}
+      <style jsx>{`
+        .fb-selects--sidebar {
+          display: flex;
+          flex-direction: column;
+          gap: 0.9rem;
+          padding-top: 0.9rem;
+          border-top: 1px dashed rgba(0,0,0,0.08);
+        }
+        .fb-select-wrap { position: relative; }
+        .fb-select-label {
+          display: block;
+          font-size: 0.72rem;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+          color: #5E6E82;
+          margin-bottom: 0.35rem;
+        }
+        .fb-select {
+          width: 100%;
+          appearance: none;
+          -webkit-appearance: none;
+          padding: 0.65rem 2.2rem 0.65rem 0.85rem;
+          border-radius: 10px;
+          border: 1.5px solid rgba(0,0,0,0.08);
+          background: #fff;
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: #1a2233;
+          cursor: pointer;
+          transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+        .fb-select:hover { border-color: #4f46e5; }
+        .fb-select:focus {
+          outline: none;
+          border-color: #4f46e5;
+          box-shadow: 0 0 0 4px rgba(79,70,229,0.15);
+        }
+        .fb-select-arrow {
+          position: absolute;
+          right: 0.85rem;
+          bottom: 0.72rem;
+          pointer-events: none;
+          color: #4f46e5;
+          font-size: 0.85rem;
+        }
+      `}</style>
     </aside>
+  );
+}
+
+// Vertical group wrapper for the sidebar (label + wrapped pills)
+function SidebarGroup({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="jobs-sidebar__group">
+      <label className="jobs-sidebar__label">{label}</label>
+      <div className="sg-pills">{children}</div>
+      <style jsx>{`
+        .sg-pills {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+      `}</style>
+    </div>
   );
 }
 

@@ -6839,7 +6839,7 @@ body {
 /* ── Jobs grid ────────────────────────────────────────── */
 .jobs-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.25rem;
   margin-bottom: 2rem;
 }
@@ -10801,4 +10801,30 @@ body {
   margin-left: auto;
   width: 90px;
   height: 60px;
+}
+
+
+/* Tablet / medium screens — fluid columns, no fixed count */
+@media (min-width: 901px) and (max-width: 1024px) {
+  .jobs-grid,
+  .latest-jobs__grid,
+  .companies-grid,
+  .saved-grid,
+  .admin-fb-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important;
+    gap: 1rem;
+  }
+
+  .jobs-layout {
+    grid-template-columns: 220px 1fr;
+    gap: 1rem;
+  }
+
+  .jobs-sidebar {
+    padding: 1rem;
+  }
+
+  .job-card {
+    padding: 1.125rem;
+  }
 }
