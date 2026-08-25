@@ -12,7 +12,6 @@ const FOOTER_LINKS = {
     { label: "Salesforce Developer",  href: "/jobs?role=developer" },
     { label: "Salesforce Admin",      href: "/jobs?role=admin" },
     { label: "Salesforce Architect",  href: "/jobs?role=architect" },
-    { label: "Marketing Cloud",       href: "/jobs?role=marketing-cloud" },
   ],
   "Company": [
     { label: "About Us",              href: "/about" },
@@ -68,7 +67,7 @@ export default function Footer() {
       </div>
 
       {/* Newsletter */}
-      <div className="footer__newsletter">
+      {/* <div className="footer__newsletter">
         <div className="footer__newsletter-text">
           <h3 className="footer__newsletter-title">Get job alerts in your inbox</h3>
           <p className="footer__newsletter-sub">New Salesforce jobs delivered weekly. No spam.</p>
@@ -84,7 +83,7 @@ export default function Footer() {
             Subscribe
           </button>
         </div>
-      </div>
+      </div> */}
 
       {/* Bottom bar */}
       <div className="footer__bottom">
