@@ -10795,3 +10795,9 @@ body {
   flex-shrink: 0;
   transition: border-color 150ms, color 150ms, background 150ms;
 }
+
+
+.navbar__logo {
+  width: 120px;
+  height: auto;
+}
