@@ -8,17 +8,17 @@ const SalesforceIcon = () => (
 );
 
 const FOOTER_LINKS = {
-  "Browse Jobs": [
-    { label: "Salesforce Developer",  href: "/jobs?role=developer" },
-    { label: "Salesforce Admin",      href: "/jobs?role=admin" },
-    { label: "Salesforce Architect",  href: "/jobs?role=architect" },
-  ],
+  // "Browse Jobs": [
+  //   { label: "Salesforce Developer",  href: "/jobs?role=developer" },
+  //   { label: "Salesforce Admin",      href: "/jobs?role=admin" },
+  //   { label: "Salesforce Architect",  href: "/jobs?role=architect" },
+  // ],
   "Company": [
     { label: "About Us",              href: "/about" },
-    { label: "Post a Job",            href: "/post-job" },
-    { label: "Contact",               href: "/contact" },
-    { label: "Privacy Policy",        href: "/privacy" },
-    { label: "Terms of Service",      href: "/terms" },
+    // { label: "Post a Job",            href: "/post-job" },
+    // { label: "Contact",               href: "/contact" },
+    // { label: "Privacy Policy",        href: "/privacy" },
+    // { label: "Terms of Service",      href: "/terms" },
   ],
 };
 
