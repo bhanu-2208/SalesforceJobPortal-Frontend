@@ -912,15 +912,28 @@ body {
   min-width: 0;
 }
 
+
 .job-card__title {
   font-size: 1rem;
   font-weight: 700;
   color: #1B2533;
   line-height: 1.3;
   margin-bottom: 0.2rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;      /* allow wrapping */
+  overflow-wrap: break-word; 
+}
+
+.jobs-grid {
+  align-items: stretch; /* default, but explicit is fine */
+}
+
+.job-card {
+  height: 100%; /* stretch to tallest card in the row */
+}
+
+.job-card__title {
+  font-size: 0.9375rem;
+  white-space: normal;
 }
 
 .job-card__company {
