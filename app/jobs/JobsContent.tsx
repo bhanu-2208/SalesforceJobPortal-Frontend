@@ -61,13 +61,18 @@ function FilterSidebar({
   const WORK_MODES        = ["Remote", "Hybrid", "Onsite"];
   const EXPERIENCE_LEVELS = ["0 Years", "1-2 Years", "2-6 Years", "6-8 Years", "8-12 Years", "12+ Years"];
   const EMPLOYMENT_TYPES  = ["Full-time", "Part-time", "Contract", "Internship"];
-  const COUNTRIES         = ["India", "USA", "UK", "Germany", "Australia", "Canada"];
+  // const COUNTRIES         = ["India", "USA", "UK", "Germany", "Australia", "Canada"];
+  const COUNTRIES = ["India", "USA", "Canada", "Others"];
 
+const POSTED_WITHIN_OPTIONS = [
+  { label: "Last 24 hours", value: "24h" },
+  { label: "Last 7 days",   value: "7d"  },
+  { label: "Last 30 days",  value: "30d" },
+];
   const hasActive =
     filters.workMode || filters.experienceLevel || filters.employmentType ||
-    filters.role || filters.country;
+    filters.role || filters.country || filters.postedWithin;   // include postedWithin
 
-  // Same toggle-radio behavior as before: click same value again to clear
   const toggle = (key: string, value: string) =>
     onChange(key, filters[key] === value ? "" : value);
 
@@ -81,6 +86,15 @@ function FilterSidebar({
           </button>
         )}
       </div>
+
+      <SidebarGroup label="Posted">
+        {POSTED_WITHIN_OPTIONS.map((p, i) => (
+          <FilterPill
+            key={p.value} label={p.label} active={filters.postedWithin === p.value}
+            onClick={() => toggle("postedWithin", p.value)} delay={i * 40}
+          />
+        ))}
+      </SidebarGroup>
 
       <SidebarGroup label="Work Mode">
         {WORK_MODES.map((m, i) => (
@@ -691,8 +705,13 @@ function FilterBar({
   const WORK_MODES        = ["Remote", "Hybrid", "Onsite"];
   const EXPERIENCE_LEVELS = ["0 Years", "1-2 Years", "2-6 Years", "6-8 Years", "8-12 Years", "12+ Years"];
   const EMPLOYMENT_TYPES  = ["Full-time", "Part-time", "Contract", "Internship"];
-  const COUNTRIES         = ["India", "USA", "UK", "Germany", "Australia", "Canada"];
+  const COUNTRIES = ["India", "USA", "Canada", "Others"];
 
+const POSTED_WITHIN_OPTIONS = [
+  { label: "Last 24 hours", value: "24h" },
+  { label: "Last 7 days",   value: "7d"  },
+  { label: "Last 30 days",  value: "30d" },
+];
   const hasActive =
     filters.workMode || filters.experienceLevel || filters.employmentType ||
     filters.role || filters.country;
@@ -1049,6 +1068,7 @@ export default function JobsPage() {
     workMode:        searchParams.get("workMode")         ?? "",
     experienceLevel: searchParams.get("experienceLevel")  ?? "",
     employmentType:  searchParams.get("employmentType")   ?? "",
+    postedWithin:    searchParams.get("postedWithin")     ?? "",   // NEW
     page: 1,
   });
 
@@ -1078,6 +1098,7 @@ export default function JobsPage() {
       if (filters.experienceLevel) params.set("experienceLevel", filters.experienceLevel);
       if (filters.employmentType)  params.set("employmentType",  filters.employmentType);
       if (filters.role)            params.set("role",            filters.role.trim());
+      if (filters.postedWithin) params.set("postedWithin", filters.postedWithin);
       params.set("page",  String(filters.page));
       params.set("limit", "12");
 
@@ -1097,7 +1118,7 @@ export default function JobsPage() {
   useEffect(() => { fetchJobs(); }, [fetchJobs]);
 
   const setFilter = (k: string, v: string) => setFilters(p => ({ ...p, [k]: v, page: 1 }));
-  const clearFilters = () => setFilters({ q:"", country:"", role:"", workMode:"", experienceLevel:"", employmentType:"", page:1 });
+  const clearFilters = () => setFilters({ q:"", country:"", role:"", workMode:"", experienceLevel:"", employmentType:"",postedWithin:"", page:1 });
 
   return (
     <>
